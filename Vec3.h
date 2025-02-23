@@ -87,11 +87,19 @@ public:
 	}
 	bool operator!=(const Vec3& other) const { return !(*this == other); }
 
-	friend std::ostream& operator<<(std::ostream& out, const Vec3& v)
-	{
-		out << v.x() << ' ' << v.y() << ' ' << v.z();
+	//Direct product
+	Vec3 operator*(const Vec3& other) const {
+		return { m_x * other.m_x,
+				 m_y * other.m_y,
+				 m_z * other.m_z };
 	}
-	
+	Vec3 operator*=(const Vec3& other) {
+		m_x *= other.m_x;
+		m_y *= other.m_y;
+		m_z *= other.m_z;
+		return *this;
+	}
+
 	// Dot product
 	friend float dot(const Vec3& v1,const Vec3& v2)
 	{
@@ -104,6 +112,11 @@ public:
 		return Vec3(v1.m_y * v2.m_z - v1.m_z * v2.m_y,
 				  -(v1.m_x * v2.m_z - v1.m_z * v2.m_x),
 					v1.m_x * v2.m_y - v1.m_y* v2.m_x);
+	}
+
+	friend std::ostream& operator<<(std::ostream& out, const Vec3& v)
+	{
+		out << v.x() << ' ' << v.y() << ' ' << v.z();
 	}
 };
 
