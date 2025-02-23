@@ -8,18 +8,14 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 
 	Vec3 pixelVector;
 	const float screenDiagonal = sqrt(m_width * m_width + m_height * m_height);
-	const Vec3 rgbMask = { 1.0f, 0, 0 };
 	for (int y = 0; y < m_height; y++)
 	{
 		for (int x = 0; x < m_width; x++)
 		{
 			pixelVector = Vec3(x,y,0);
 			auto filloutAmount = (pixelVector.magnitude() / screenDiagonal);
-			rgb = Vec3(1,1,1) * filloutAmount;
-
-			// make the components in range 0 - 255
-			rgb *= rgbMask * Constants::RGB_MAX;
-
+			rgb = Vec3(1,1,1) * filloutAmount * Constants::RGB_MAX;
+			r = 255;
 			outputFile << int(r) << ' ' << int(g) << ' ' << int(b) << std::endl;
 		}
 	}
