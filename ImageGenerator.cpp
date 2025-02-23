@@ -1,16 +1,23 @@
 #include "ImageGenerator.h"
-#include <cmath>
 void ImageGenerator::setPixels(std::ofstream& outputFile)
 {
-	int r, g, b;
+	Vec3 rgb;
+	float& r = rgb.x();
+	float& g = rgb.y();
+	float& b = rgb.z();
+
+	Vec3 pixelVector;
+	const float screenDiagonal = sqrt(m_width * m_width + m_height * m_height);
 
 	for (int y = 0; y < m_height; y++)
 	{
 		for (int x = 0; x < m_width; x++)
 		{
-			auto filloutAmount = (sqrt(x * x + y * y) / sqrt(m_width * m_width + m_height * m_height));
-			r = g = b = static_cast<int>(filloutAmount * Constants::RGB_MAX);
-			outputFile << r << ' ' << g << ' ' << b << std::endl;
+			pixelVector = Vec3(x,y,0);
+			auto filloutAmount = (pixelVector.magnitude() / screenDiagonal);
+			rgb = Vec3(1,1,1) * (filloutAmount) * Constants::RGB_MAX;
+
+			outputFile << int(r) << ' ' << int(g) << ' ' << int(b) << std::endl;
 		}
 	}
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <fstream>
 #include <iostream>
+#include <math.h>
+#include "Vec3.h"
 #include "Constants.h"
 
 class ImageGenerator
