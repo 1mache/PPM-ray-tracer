@@ -5,6 +5,9 @@ namespace Constants
 	constexpr size_t IMG_WIDTH = 600;
 	constexpr size_t IMG_HEIGHT = 400;
 
+	// Max rgb value
+	constexpr size_t RGB_MAX = 255;
+
 	constexpr const char* OUTPUT_FILE_NAME = "output.ppm";
 
 	// Binary format of the PPM file
