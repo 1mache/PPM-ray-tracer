@@ -1,25 +1,63 @@
 #include "ImageGenerator.h"
+
+ImageGenerator::ImageGenerator(size_t width, size_t height, float _FOV, const Vec3& _camPosition, float _viewportDist)
+	: screenHeight(height), screenWidth(width), FOV(_FOV),
+	camPosition(_camPosition), viewportDist(_viewportDist) //optional
+{
+	aspect_ratio = width / height;
+	// height calculated from FOV using famous formula
+	viewportHeight = 2 * (tan(FOV / 2) * viewportDist); // see image in materials
+	// width is calculated from height using aspect ratio
+	viewportWidth = viewportHeight * aspect_ratio;
+}
+
 void ImageGenerator::setPixels(std::ofstream& outputFile)
 {
-	Vec3 rgb;
-	float& r = rgb.x();
-	float& g = rgb.y();
-	float& b = rgb.z();
+	const Vec3 horizontal(viewportWidth, 0, 0);
+	const Vec3 vertical(0, viewportHeight, 0);
 
-	Vec3 pixelVector;
-	const float screenDiagonal = sqrt(m_width * m_width + m_height * m_height);
-	for (int y = 0; y < m_height; y++)
+	// think about it: y positive is up, x positive is right
+	const Vec3 lowLeftCorner(-viewportWidth/2, -viewportHeight/2, -viewportDist);
+
+	// going from low left up and right
+	for (int y = screenHeight-1; y >=0; y--)
 	{
-		for (int x = 0; x < m_width; x++)
+		for (int x = 0; x < screenWidth; x++)
 		{
-			pixelVector = Vec3(x,y,0);
-			auto filloutAmount = (pixelVector.magnitude() / screenDiagonal);
-			rgb = Vec3(1,1,1) * filloutAmount * Constants::RGB_MAX;
-			r = 255;
-			outputFile << int(r) << ' ' << int(g) << ' ' << int(b) << std::endl;
+			// ratio of current x/y to max x/y
+			float yRatio = y / (screenHeight - 1), xRatio = x / (screenWidth - 1);
+			// using the ratio translate screen point to viewport point
+			Vec3 viewportPoint = lowLeftCorner + xRatio * horizontal + yRatio * vertical;
+			
+			// cast ray from cam position to the point we calculated
+			Ray ray(camPosition, viewportPoint);
+			// get rgb fractions and translate them to 0-255
+			Vec3 rgb = bgPixelColor(ray) * Constants::RGB_MAX;
+			writeRgbValue(outputFile, rgb);
 		}
 	}
 }
+
+void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
+{
+	const int max = Constants::RGB_MAX;
+	// make sure the values are in range
+	int r = rgb.x() < max ? int(rgb.x()) : max;
+	int g = rgb.y() < max ? int(rgb.y()) : max;
+	int b = rgb.z() < max ? int(rgb.z()) : max;
+	
+	outFile << r << ' ' << g << ' ' << b << std::endl;
+}
+
+Vec3 ImageGenerator::bgPixelColor(const Ray& ray)
+{
+	// gradient based on y coordinate:
+	// we know that direction is normalized => -1 <= y <= 1
+	// so +1 and times 0.5 gives value in between 0 and 1 therefore gradient
+	float t = 0.5f * (ray.getNormalizedDirection().y() + 1.0f);
+	return (1.0f - t) * Constants::WHITE_COLOR + t * Constants::BG_COLOR_FULL; // lerp bg color
+}
+
 
 bool ImageGenerator::generateImage()
 {
@@ -32,7 +70,7 @@ bool ImageGenerator::generateImage()
 	
 	// .ppm format specifications:
 	outputFile << Constants::BIN_FORMAT << std::endl;
-	outputFile << m_width << ' ' << m_height << std::endl;
+	outputFile << screenWidth << ' ' << screenHeight << std::endl;
 	outputFile << Constants::RGB_MAX << std::endl;
 
 	setPixels(outputFile);

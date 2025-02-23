@@ -1,4 +1,5 @@
 #pragma once
+#include "Vec3.h"
 
 namespace Constants
 {
@@ -7,6 +8,9 @@ namespace Constants
 
 	// Max rgb value
 	constexpr size_t RGB_MAX = 255;
+
+	constexpr Vec3 WHITE_COLOR = { 1.0f, 1.0f, 1.0f };
+	constexpr Vec3 BG_COLOR_FULL = {0.2f, 0.6f, 1.0f };
 
 	constexpr const char* OUTPUT_FILE_NAME = "output.ppm";
 

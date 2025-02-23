@@ -65,6 +65,7 @@ public:
 		m_z *= t;
 		return *this;
 	}
+	friend Vec3 operator*(float t, const Vec3& v) { return v * t; }
 	Vec3 operator/(float t)const { 
 		if (t == 0)
 			return { 0,0,0 };
