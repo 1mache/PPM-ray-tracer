@@ -104,8 +104,8 @@ bool ImageGenerator::generateImage()
 		return false;
 	}
 	
-	// .ppm format specifications:
-	outputFile << Constants::BIN_FORMAT << std::endl;
+	// .ppm file specifications:
+	outputFile << Constants::PPM_FORMAT << std::endl;
 	outputFile << screenWidth << ' ' << screenHeight << std::endl;
 	outputFile << Constants::RGB_MAX << std::endl;
 
