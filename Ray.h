@@ -12,13 +12,13 @@ public:
 	Ray(const Vec3& origin, const Vec3& direction)
 		:m_origin(origin), m_direction(direction) {};
 
-	Vec3 getOrigin() const { return m_origin; }
-	Vec3 getDirection() const { return m_direction; }
-	Vec3 getNormalizedDirection() const { return m_direction.normalized(); }
+	Vec3 origin() const { return m_origin; }
+	Vec3 direction() const { return m_direction; }
+	Vec3 normalizedDirection() const { return m_direction.normalized(); }
 
 	// ray = origin + t*direction. 
 	// gets the point with given t
-	Vec3 pointByParam(float t)
+	Vec3 pointByParam(float t) const
 	{
 		return m_origin + m_direction * t;
 	}
