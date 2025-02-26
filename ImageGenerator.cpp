@@ -1,10 +1,10 @@
 #include "ImageGenerator.h"
 
-ImageGenerator::ImageGenerator(size_t width, size_t height, float _FOV, const Vec3& _camPosition, float _viewportDist)
-	: screenHeight(height), screenWidth(width), FOV(_FOV),
-	camPosition(_camPosition), viewportDist(_viewportDist) //optional
+ImageGenerator::ImageGenerator(dimension_t width, dimension_t height, float _FOV, const Vec3& _camPosition, float _viewportDist)
+	: screenHeight(height), screenWidth(width), FOV(_FOV), // required
+	camPosition(_camPosition), viewportDist(_viewportDist) // optional
 {
-	aspect_ratio = float(width) / float(height);
+	aspect_ratio = float(screenWidth) / float(screenHeight);
 	// height calculated from FOV using famous formula
 	viewportHeight = 2 * (tan(FOV / 2) * viewportDist); // see image in materials
 	// width is calculated from height using aspect ratio
@@ -27,7 +27,7 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 		for (int x = 0; x < screenWidth; x++)
 		{
 			// ratio of current x/y to max x/y
-			float yRatio = y / (screenHeight - 1), xRatio = x / (screenWidth - 1);
+			float yRatio = float(y) / (screenHeight - 1), xRatio = float(x) / (screenWidth - 1);
 			// using the ratio translate screen point to viewport point
 			Vec3 viewportPoint = lowLeftCorner + xRatio * horizontal + yRatio * vertical;
 			

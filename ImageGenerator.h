@@ -9,7 +9,9 @@
 
 class ImageGenerator
 {
-	const float screenWidth, screenHeight;
+	using dimension_t = Constants::dimension_t;
+
+	const dimension_t screenWidth, screenHeight;
 	// Wigth to Height ratio
 	float aspect_ratio;
 	
@@ -30,7 +32,7 @@ class ImageGenerator
 	bool hitSphere(const Sphere& sphere, const Ray& ray, Vec3& outHitPoint);
 	Vec3 bgPixelColor(const Ray& ray);
 public:
-	ImageGenerator(size_t width, size_t height, float _FOV,
+	ImageGenerator(dimension_t width, dimension_t height, float _FOV,
 		const Vec3& _camPosition = { 0,0,0 }, float _viewportDist = 1);
 
 	bool generateImage();

@@ -3,8 +3,11 @@
 
 namespace Constants
 {
-	constexpr size_t IMG_WIDTH = 600;
-	constexpr size_t IMG_HEIGHT = 400;
+	// type for image dimensions
+	typedef uint16_t dimension_t;
+
+	constexpr dimension_t IMG_WIDTH = 600;
+	constexpr dimension_t IMG_HEIGHT = 400;
 
 	// Max rgb value
 	constexpr size_t RGB_MAX = 255;
