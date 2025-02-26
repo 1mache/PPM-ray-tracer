@@ -97,7 +97,7 @@ Vec3 ImageGenerator::bgPixelColor(const Ray& ray)
 
 bool ImageGenerator::generateImage()
 {
-	std::ofstream outputFile(Constants::OUTPUT_FILE_NAME);
+	std::ofstream outputFile(Constants::PPM_OUTPUT_FILE_NAME);
 	if (!outputFile.is_open())
 	{
 		std::cout << "Something went wrong! Couldn`t open file" << std::endl;

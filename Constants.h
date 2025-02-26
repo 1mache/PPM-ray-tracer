@@ -15,7 +15,8 @@ namespace Constants
 	constexpr Vec3 WHITE_COLOR = { 1.0f, 1.0f, 1.0f };
 	constexpr Vec3 BG_COLOR_FULL = {0.2f, 0.6f, 1.0f };
 
-	constexpr const char* OUTPUT_FILE_NAME = "output.ppm";
+	constexpr const char* PPM_OUTPUT_FILE_NAME = "output.ppm";
+	constexpr const char* BMP_OUTPUT_FILE_NAME = "output.bmp";
 
 	// Format of the PPM file
 	// from https://en.wikipedia.org/wiki/Netpbm#File_formats "P3" means this is a RGB color image in ASCII

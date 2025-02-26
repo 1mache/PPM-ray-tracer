@@ -8,31 +8,40 @@ namespace Utils
 {
 #pragma pack(push, 1) // we want no padding in the structs!
 
+    // info on headers: https://learn.microsoft.com/en-us/windows/win32/gdi/bitmap-storage
+    
     struct BMPHeader {
-        static constexpr uint16_t signature = 0x4D42; // "BM" - fixed value
+        const uint16_t signature = 0x4D42; // "BM" - fixed value
         uint32_t fileSize;      // Total file size in bytes
-        static constexpr uint32_t reserved = 0; // Reserved, always 0
+        const uint32_t reserved = 0; // Reserved, always 0
         uint32_t dataOffset;    // Offset to pixel data (from start of file)
     };
 
     struct DIBHeader {
-        static constexpr uint32_t headerSize = 40; // Always 40 for BITMAPINFOHEADER
+        const uint32_t headerSize = 40; // Always 40 for BITMAPINFOHEADER
         int32_t width;
         int32_t height;
-        static constexpr uint16_t planes = 1;  // Always 1
-        static constexpr uint16_t bitsPerPixel = 24; // 24-bit BMP
-        static constexpr uint32_t compression = 0; // No compression
+        const uint16_t planes = 1;  // Always 1
+        const uint16_t bitsPerPixel = 24; // 24-bit BMP
+        const uint32_t compression = 0; // No compression
         uint32_t imageSize;  // Image data size (can be 0 for uncompressed BMPs)
-        static constexpr int32_t xPixelsPerMeter = 2835; // 72 DPI
-        static constexpr int32_t yPixelsPerMeter = 2835; // 72 DPI
-        static constexpr uint32_t colorsUsed = 0; // All colors used
-        static constexpr uint32_t importantColors = 0; // All colors important
+        const int32_t xPixelsPerMeter = 2835; // 72 DPI
+        const int32_t yPixelsPerMeter = 2835; // 72 DPI
+        const uint32_t colorsUsed = 0; // All colors used
+        const uint32_t importantColors = 0; // All colors important
+    };
+
+    struct RGBQuad
+    {
+        uint8_t r, g, b;
+        const uint8_t reserved = 0;
     };
 
 #pragma pack(pop) // restore allignment
 
-    bool ppmToBmp(std::ifstream& ppmFile)
+    bool ppmToBmp(const std::string& ppmFileName)
 	{
+        std::ifstream ppmFile(ppmFileName);
         if (!ppmFile.is_open())
         {
             std::cout << "Error: The file isn`t open!\n";
@@ -70,7 +79,20 @@ namespace Utils
         bmpHeader.dataOffset = sizeof(bmpHeader) + sizeof(dibHeader);
         bmpHeader.fileSize = bmpHeader.dataOffset + dibHeader.imageSize;
 
+        std::ofstream bmpFile(Constants::BMP_OUTPUT_FILE_NAME, std::ios_base::binary);
 
+        bmpFile.write(reinterpret_cast<char*>(&bmpHeader), sizeof(bmpHeader));
+        bmpFile.write(reinterpret_cast<char*>(&dibHeader), sizeof(dibHeader));
+        
+        uint8_t r, g, b;
+        while(ppmFile >> r >> g >> b)
+        {
+            RGBQuad pixelData = { r, g, b };
+            bmpFile.write(reinterpret_cast<char*>(&pixelData), sizeof(pixelData));
+        }
+
+        ppmFile.close();
+        bmpFile.close();
         return true;
 	}
 };
