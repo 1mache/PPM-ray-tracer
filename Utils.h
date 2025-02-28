@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Vec3.h"
 #include "Constants.h"
+#include <vector>
 
 namespace Utils
 {
@@ -22,7 +23,7 @@ namespace Utils
         int32_t width;
         int32_t height;
         const uint16_t planes = 1;  // Always 1
-        const uint16_t bitsPerPixel = 24; // 24-bit BMP
+        const uint16_t bitsPerPixel = 32; // 32-bit BMP
         const uint32_t compression = 0; // No compression
         uint32_t imageSize;  // Image data size (can be 0 for uncompressed BMPs)
         const int32_t xPixelsPerMeter = 2835; // 72 DPI
@@ -31,68 +32,15 @@ namespace Utils
         const uint32_t importantColors = 0; // All colors important
     };
 
-    struct RGBQuad
+    struct BGRQuad
     {
-        uint8_t r, g, b;
-        const uint8_t reserved = 0;
+        uint8_t b;
+        uint8_t g;
+        uint8_t r;
+        uint8_t reserved = 0;
     };
 
 #pragma pack(pop) // restore allignment
 
-    bool ppmToBmp(const std::string& ppmFileName)
-	{
-        std::ifstream ppmFile(ppmFileName);
-        if (!ppmFile.is_open())
-        {
-            std::cout << "Error: The file isn`t open!\n";
-            return false;
-        }
-
-        std::string format;
-        if (!(ppmFile >> format)) 
-        {  
-            std::cout << "Error: Could not read file or file is empty!\n";
-            return false;
-        }
-
-        if (format != Constants::PPM_FORMAT) 
-        { 
-            std::cout << "Error: Wrong file format, should be P3!\n";
-            return false;
-        }
-
-        Constants::dimension_t imgWidth, imgHeight;
-        if(!(ppmFile >> imgWidth >> imgHeight))
-        {
-            std::cout << "Error: Couldnt read file dimensions\n";
-            return false;
-        }
-        
-        BMPHeader bmpHeader = {};
-        DIBHeader dibHeader = {};
-
-        dibHeader.height = imgHeight;
-        dibHeader.width = imgWidth;
-        uint32_t rowSize = (imgWidth * 3 + 3) & ~3;  // row size calculation + 4-byte alignment
-        dibHeader.imageSize = rowSize * imgHeight;
-
-        bmpHeader.dataOffset = sizeof(bmpHeader) + sizeof(dibHeader);
-        bmpHeader.fileSize = bmpHeader.dataOffset + dibHeader.imageSize;
-
-        std::ofstream bmpFile(Constants::BMP_OUTPUT_FILE_NAME, std::ios_base::binary);
-
-        bmpFile.write(reinterpret_cast<char*>(&bmpHeader), sizeof(bmpHeader));
-        bmpFile.write(reinterpret_cast<char*>(&dibHeader), sizeof(dibHeader));
-        
-        uint8_t r, g, b;
-        while(ppmFile >> r >> g >> b)
-        {
-            RGBQuad pixelData = { r, g, b };
-            bmpFile.write(reinterpret_cast<char*>(&pixelData), sizeof(pixelData));
-        }
-
-        ppmFile.close();
-        bmpFile.close();
-        return true;
-	}
+    bool ppmToBmp(const std::string& ppmFileName, const std::string& bmpFileName);
 };
