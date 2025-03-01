@@ -15,7 +15,7 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 		for (int x = 0; x < m_screenWidth; x++)
 		{
 			// times rgbMax to translate 0-1 values to 0-255 values
-			Vec3 rgb = avgColor(x, y) * Constants::RGB_MAX;
+			Vec3 rgb = calcAvgColor(x, y) * Constants::RGB_MAX;
 			writeRgbValue(outputFile, rgb);
 		}
 	}
@@ -44,7 +44,7 @@ Vec3 ImageGenerator::calcColor(int screenX, int screenY, bool randomize)
 		return bgPixelColor(ray);
 }
 
-Vec3 ImageGenerator::avgColor(int screenX, int screenY)
+Vec3 ImageGenerator::calcAvgColor(int screenX, int screenY)
 {
 	HitRecord rec = {};
 	Vec3 rgb = { 0,0,0 };
@@ -70,7 +70,7 @@ Vec3 ImageGenerator::randomInUnitSphere()
 	{
 		// generate a vector with components 0 to 1. Transform so components are -1 to 1
 		v = 2 * Vec3(random0to1(), random0to1(), random0to1()) - Vec3(1,1,1);
-	} while (v.squaredMagnitude() <= 1);
+	} while (v.squaredMagnitude() <= 1); //repeat until we get something inside the sphere
 
 	return v;
 }

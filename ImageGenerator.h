@@ -35,8 +35,11 @@ class ImageGenerator
 	const HitableSet& m_world;
 
 	void setPixels(std::ofstream& outputFile);
+	// returns color for the given pixel 
 	Vec3 calcColor(int screenX, int screenY, bool randomize = false);
-	Vec3 avgColor(int screenX, int screenY);
+	// same as calcColor but with antialiasing
+	Vec3 calcAvgColor(int screenX, int screenY);
+	// generates a random vector inside the unit sphere
 	Vec3 randomInUnitSphere();
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
 	Vec3 bgPixelColor(const Ray& ray);
