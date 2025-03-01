@@ -11,7 +11,8 @@ struct HitRecord
 
 class IHitable
 {
-	// max and min ray multiplier
+protected:
+	// max and min values of t (ray scalar multiplier)
 	static constexpr float T_MIN = 0, T_MAX = FLT_MAX;
 public:
 	~IHitable() {};

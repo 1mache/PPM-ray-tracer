@@ -4,6 +4,7 @@
 #include <math.h>
 #include "Vec3.h"
 #include "Ray.h"
+#include "IHitable.h"
 #include "Sphere.h"
 #include "Constants.h"
 
@@ -26,10 +27,8 @@ class ImageGenerator
 	// calculated using FOV
 	float viewportWidth, viewportHeight;
 
-
 	void setPixels(std::ofstream& outputFile);
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
-	bool hitSphere(const Sphere& sphere, const Ray& ray, Vec3& outHitPoint);
 	Vec3 bgPixelColor(const Ray& ray);
 public:
 	ImageGenerator(dimension_t width, dimension_t height, float _FOV,

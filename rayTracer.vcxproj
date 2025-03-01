@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="ImageGenerator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>

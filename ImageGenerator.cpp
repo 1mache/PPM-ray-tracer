@@ -34,10 +34,11 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 			// cast ray from cam position to the point we calculated
 			Ray ray(camPosition, viewportPoint);
 			
-			Vec3 rgb, hitPoint;
-			if(hitSphere(sphere, ray, hitPoint))
+			Vec3 rgb;
+			HitRecord rec = {};
+			if(sphere.isHit(ray, rec))
 			{
-				rgb = ((hitPoint-sphere.center()).normalized()+ Vec3(1.0,1.0,1.0))/2 * Constants::RGB_MAX;
+				rgb = (rec.surfaceNormal + Vec3(1.0,1.0,1.0))/2 * Constants::RGB_MAX;
 			}
 			else
 			{
@@ -60,31 +61,6 @@ void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
 	outFile << r << ' ' << g << ' ' << b << std::endl;
 }
 
-bool ImageGenerator::hitSphere(const Sphere& sphere, const Ray& ray, Vec3& outHitPoint)
-{
-	// The components of the quadratic equation are derived from 
-	// dot(p-c, p-c) = r^2 where p is a point on a ray ,c is the center of the sphere
-	// and r is the radius of the sphere.
-	// We ask is there a param t in ray equation that satisfies that.
-
-	Vec3 oc = ray.origin() - sphere.center();
-	float a = dot(ray.normalizedDirection(),ray.normalizedDirection());
-	float b = 2.0f*dot(oc, ray.normalizedDirection());
-	float c = dot(oc,oc) - sphere.radius()*sphere.radius();
-
-	float discriminant = b*b - 4*a*c; // good ol` discriminant
-
-	if(discriminant > 0)
-	{
-		// find t
-		float t1 = (-b + sqrt(discriminant)) / (2 * a);
-		float t2 = (-b - sqrt(discriminant)) / (2 * a);
-		outHitPoint = ray.pointByParam(fmin(t1,t2));
-	}
-
-	return discriminant > 0;
-}
-
 Vec3 ImageGenerator::bgPixelColor(const Ray& ray)
 {
 	// gradient based on y coordinate:
@@ -93,7 +69,6 @@ Vec3 ImageGenerator::bgPixelColor(const Ray& ray)
 	float t = (ray.normalizedDirection().y() + 1.0f) / 2;
 	return (1.0f - t) * Constants::WHITE_COLOR + t * Constants::BG_COLOR_FULL; // lerp bg color
 }
-
 
 bool ImageGenerator::generateImage()
 {

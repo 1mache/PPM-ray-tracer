@@ -1,7 +1,8 @@
 #pragma once
 #include "Vec3.h"
+#include "IHitable.h"
 
-class Sphere
+class Sphere : public IHitable
 {
 	Vec3 m_center;
 	float m_radius;
@@ -11,4 +12,6 @@ public:
 
 	Vec3 center() const { return m_center; }
 	float radius() const { return m_radius; }
+
+	bool isHit(const Ray& ray, HitRecord& record) override;
 };
