@@ -19,8 +19,9 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 	// think about it: y positive is up, x positive is right
 	const Vec3 lowLeftCorner(-viewportWidth/2, -viewportHeight/2, -viewportDist);
 
-	Sphere sphere({ 0,0,-2.0f }, 0.5f);
-
+	HitableSet world = { new Sphere({ 0,0,-2.0f }, 0.5f) , 
+		new Sphere({0, -100.5f, -2.0f}, 100.0f) };
+	
 	// going from low left up and right
 	for (int y = screenHeight-1; y >=0; y--)
 	{
@@ -36,7 +37,7 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 			
 			Vec3 rgb;
 			HitRecord rec = {};
-			if(sphere.isHit(ray, rec))
+			if(world.isHit(ray, 0.0f, FLT_MAX, rec))
 			{
 				rgb = (rec.surfaceNormal + Vec3(1.0,1.0,1.0))/2 * Constants::RGB_MAX;
 			}

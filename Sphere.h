@@ -13,5 +13,5 @@ public:
 	Vec3 center() const { return m_center; }
 	float radius() const { return m_radius; }
 
-	bool isHit(const Ray& ray, HitRecord& record) override;
+	bool isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const override;
 };

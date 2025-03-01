@@ -11,10 +11,7 @@ struct HitRecord
 
 class IHitable
 {
-protected:
-	// max and min values of t (ray scalar multiplier)
-	static constexpr float T_MIN = 0, T_MAX = FLT_MAX;
 public:
 	~IHitable() {};
-	virtual bool isHit(const Ray& ray, HitRecord& record) = 0;
+	virtual bool isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const = 0;
 };

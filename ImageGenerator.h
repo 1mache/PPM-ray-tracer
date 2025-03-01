@@ -5,6 +5,7 @@
 #include "Vec3.h"
 #include "Ray.h"
 #include "IHitable.h"
+#include "HitableSet.h"
 #include "Sphere.h"
 #include "Constants.h"
 

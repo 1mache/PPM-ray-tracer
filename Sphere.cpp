@@ -1,6 +1,6 @@
 #include "Sphere.h"
 
-bool Sphere::isHit(const Ray& ray, HitRecord& record)
+bool Sphere::isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const
 {
 	// The components of the quadratic equation are derived from 
 	// dot(p-c, p-c) = r^2 where p is a point on a ray ,c is the center of the sphere
@@ -16,15 +16,33 @@ bool Sphere::isHit(const Ray& ray, HitRecord& record)
 
 	if (discriminant > 0)
 	{
-		// find t
-		float t1 = (-b + sqrt(discriminant)) / (2 * a);
-		float t2 = (-b - sqrt(discriminant)) / (2 * a);
-		float t = std::min(t1, t2);
-		// populate hit record
-		record.t = t;
-		record.hitPoint = ray.pointByParam(t);
-		record.surfaceNormal = (record.hitPoint - m_center).normalized();
+		// two solutions of the quadr. equation
+		float t1 = (-b - sqrt(discriminant)) / (2 * a); 
+		float t2 = (-b + sqrt(discriminant)) / (2 * a); 
+		float t; // final t
+		bool tFound = false; // did we find a "good" t 
+		if (tMin <= t1 && t1 <= tMax) // is t1 in bounds
+		{
+			t = t1;
+			tFound = true;
+		}
+		else if (tMin <= t2 && t2 <= tMax) // is t2 in bounds
+		{
+			// if we already have a t, pick the smaller out of the 2
+			if (tFound) t = std::min(t, t2);
+			else t = t2; // otherwise just pick t2
+			tFound = true;
+		}
+
+		// if t was found populate hit record
+		if(tFound)
+		{
+			out_record.t = t;
+			out_record.hitPoint = ray.pointByParam(t);
+			out_record.surfaceNormal = (out_record.hitPoint - m_center).normalized();
+			return true;
+		}
 	}
 
-	return discriminant > 0;
+	return false;
 }

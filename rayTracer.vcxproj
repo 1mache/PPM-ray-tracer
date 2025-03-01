@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HitableSet.cpp" />
     <ClCompile Include="ImageGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sphere.cpp" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="HitableSet.h" />
     <ClInclude Include="IHitable.h" />
     <ClInclude Include="ImageGenerator.h" />
     <ClInclude Include="Ray.h" />

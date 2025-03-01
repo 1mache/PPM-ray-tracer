@@ -27,6 +27,9 @@
     <ClCompile Include="Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HitableSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IHitable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HitableSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
