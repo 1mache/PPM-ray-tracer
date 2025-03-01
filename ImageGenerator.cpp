@@ -51,11 +51,11 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 
 void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
 {
-	const int max = Constants::RGB_MAX;
-	// make sure the values are in range
-	int r = rgb.x() < max ? int(rgb.x()) : max;
-	int g = rgb.y() < max ? int(rgb.y()) : max;
-	int b = rgb.z() < max ? int(rgb.z()) : max;
+	const float rgbMax = Constants::RGB_MAX;
+	// clamp the values between 255 and 0
+	int r = std::min( std::max(rgb.x(), 0.0f), rgbMax);
+	int g = std::min(std::max(rgb.y(), 0.0f), rgbMax);
+	int b = std::min(std::max(rgb.z(), 0.0f), rgbMax);
 	
 	outFile << r << ' ' << g << ' ' << b << std::endl;
 }
