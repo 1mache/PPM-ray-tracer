@@ -9,7 +9,11 @@ class HitableSet: public IHitable
 public:
 	explicit HitableSet(size_t size = 0) : m_hitables(size) {}
 	HitableSet(std::initializer_list<IHitable*> objects): m_hitables(objects) {}
-	~HitableSet();
+
+	HitableSet(const HitableSet&) = delete;
+	HitableSet& operator=(const HitableSet&) = delete;
+
+	~HitableSet() override;
 	size_t size() const { return m_hitables.size(); }
 	
 	bool isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const override;

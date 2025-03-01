@@ -26,9 +26,9 @@ class ImageGenerator
 	std::mt19937 m_generator = std::mt19937(m_rd()); // initialize PRNG with the seed
 	std::uniform_real_distribution<float> m_distribution{0.0f, 1.0f}; // initialize distribution
 
-	const uint8_t m_antialiasingPrecision = 25; // should be 0 if turned off
+	const uint8_t m_antialiasingPrecision = 10; // should be 0 if turned off
 
-	HitableSet m_world;
+	const HitableSet& m_world;
 
 	void setPixels(std::ofstream& outputFile);
 	Vec3 calcColor(int screenX, int screenY, float randomComponent = 0);

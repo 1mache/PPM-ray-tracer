@@ -6,7 +6,7 @@
 int main(int argc, char* argv[])
 {
 	// 90 degree FOV for now, which is pi/2 rad
-	float FOVrad = M_PI / 2;
+	float FOVrad = float(M_PI / 2);
 
 	HitableSet world = { new Sphere({ 0,0,-2.0f }, 0.5f) , new Sphere({0, -100.5f, -2.0f}, 100.0f) };
 
@@ -26,4 +26,5 @@ int main(int argc, char* argv[])
 	else
 		std::cout << "Failed. Terminating\n";
 
+	return 0;
 }

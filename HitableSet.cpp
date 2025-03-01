@@ -3,7 +3,10 @@
 HitableSet::~HitableSet()
 {
 	for (auto* hitable : m_hitables)
-		delete hitable;
+	{
+		if(hitable)
+			delete hitable;
+	}
 }
 
 bool HitableSet::isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const
