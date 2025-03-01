@@ -21,10 +21,19 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 	}
 }
 
-Vec3 ImageGenerator::calcColor(int screenX, int screenY, float randomComponent)
+Vec3 ImageGenerator::calcColor(int screenX, int screenY, bool randomize)
 {
-	float yRatio = (float(screenY) + randomComponent)/ (m_screenHeight - 1), 
-		xRatio = (float(screenX) + randomComponent) / (m_screenWidth - 1);
+	float xRatio, yRatio;
+
+	yRatio = (float(screenY)) / (m_screenHeight - 1);
+	xRatio = (float(screenX)) / (m_screenWidth - 1);
+
+	if(randomize) 
+	{
+		// add random offsets if randomization was requested
+		yRatio += random0to1() / (m_screenHeight - 1);
+		xRatio += random0to1() / (m_screenWidth - 1);
+	}
 	
 	Ray ray = m_camera.getRay(xRatio, yRatio);
 	HitRecord rec = {};
@@ -42,8 +51,7 @@ Vec3 ImageGenerator::avgColor(int screenX, int screenY)
 
 	for (int i = 0; i < m_antialiasingPrecision - 1; i++)
 	{
-		float randomComponent = m_distribution(m_generator);
-		rgb += calcColor(screenX, screenY, randomComponent);
+		rgb += calcColor(screenX, screenY, true);
 	}
 
 	// one time with no random in case there is no antialiasing
@@ -53,6 +61,18 @@ Vec3 ImageGenerator::avgColor(int screenX, int screenY)
 		rgb /= m_antialiasingPrecision; // divide by number of simulations => get average
 	
 	return rgb;
+}
+
+Vec3 ImageGenerator::randomInUnitSphere()
+{
+	Vec3 v;
+	do
+	{
+		// generate a vector with components 0 to 1. Transform so components are -1 to 1
+		v = 2 * Vec3(random0to1(), random0to1(), random0to1()) - Vec3(1,1,1);
+	} while (v.squaredMagnitude() <= 1);
+
+	return v;
 }
 
 void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)

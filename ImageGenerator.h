@@ -25,14 +25,19 @@ class ImageGenerator
 	std::random_device m_rd;  // get a random seed from the OS
 	std::mt19937 m_generator = std::mt19937(m_rd()); // initialize PRNG with the seed
 	std::uniform_real_distribution<float> m_distribution{0.0f, 1.0f}; // initialize distribution
+	float random0to1()
+	{
+		return m_distribution(m_generator);
+	}
 
 	const uint8_t m_antialiasingPrecision = 10; // should be 0 if turned off
 
 	const HitableSet& m_world;
 
 	void setPixels(std::ofstream& outputFile);
-	Vec3 calcColor(int screenX, int screenY, float randomComponent = 0);
+	Vec3 calcColor(int screenX, int screenY, bool randomize = false);
 	Vec3 avgColor(int screenX, int screenY);
+	Vec3 randomInUnitSphere();
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
 	Vec3 bgPixelColor(const Ray& ray);
 public:
