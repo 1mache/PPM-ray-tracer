@@ -1,63 +1,67 @@
 #include "ImageGenerator.h"
 
-ImageGenerator::ImageGenerator(dimension_t width, dimension_t height, float _FOV, const Vec3& _camPosition, float _viewportDist)
-	: screenHeight(height), screenWidth(width), FOV(_FOV), // required
-	camPosition(_camPosition), viewportDist(_viewportDist) // optional
-{
-	aspect_ratio = float(screenWidth) / float(screenHeight);
-	// height calculated from FOV using famous formula
-	viewportHeight = 2 * (tan(FOV / 2) * viewportDist); // see image in materials
-	// width is calculated from height using aspect ratio
-	viewportWidth = viewportHeight * aspect_ratio;
-}
+ImageGenerator::ImageGenerator(dimension_t width, dimension_t height, float FOV, const HitableSet& world, 
+								const Vec3& camPosition, float viewportDist)
+	: m_screenHeight(height), m_screenWidth(width), m_world(world),
+	  m_aspectRatio(float(m_screenWidth) / float(m_screenHeight)),
+	  m_camera(camPosition, FOV, viewportDist ,m_aspectRatio)
+{}
 
 void ImageGenerator::setPixels(std::ofstream& outputFile)
 {
-	const Vec3 horizontal(viewportWidth, 0, 0);
-	const Vec3 vertical(0, viewportHeight, 0);
-
-	// think about it: y positive is up, x positive is right
-	const Vec3 lowLeftCorner(-viewportWidth/2, -viewportHeight/2, -viewportDist);
-
-	HitableSet world = { new Sphere({ 0,0,-2.0f }, 0.5f) , 
-		new Sphere({0, -100.5f, -2.0f}, 100.0f) };
-	
 	// going from low left up and right
-	for (int y = screenHeight-1; y >=0; y--)
+	for (int y = m_screenHeight-1; y >=0; y--)
 	{
-		for (int x = 0; x < screenWidth; x++)
+		for (int x = 0; x < m_screenWidth; x++)
 		{
-			// ratio of current x/y to max x/y
-			float yRatio = float(y) / (screenHeight - 1), xRatio = float(x) / (screenWidth - 1);
-			// using the ratio translate screen point to viewport point
-			Vec3 viewportPoint = lowLeftCorner + xRatio * horizontal + yRatio * vertical;
-			
-			// cast ray from cam position to the point we calculated
-			Ray ray(camPosition, viewportPoint);
-			
-			Vec3 rgb;
-			HitRecord rec = {};
-			if(world.isHit(ray, 0.0f, FLT_MAX, rec))
-			{
-				rgb = (rec.surfaceNormal + Vec3(1.0,1.0,1.0))/2 * Constants::RGB_MAX;
-			}
-			else
-			{
-				// get rgb fractions and translate them to 0-255
-				 rgb = bgPixelColor(ray) * Constants::RGB_MAX;
-			}
+			// times rgbMax to translate 0-1 values to 0-255 values
+			Vec3 rgb = avgColor(x, y) * Constants::RGB_MAX;
 			writeRgbValue(outputFile, rgb);
 		}
 	}
 }
 
+Vec3 ImageGenerator::calcColor(int screenX, int screenY, float randomComponent)
+{
+	float yRatio = (float(screenY) + randomComponent)/ (m_screenHeight - 1), 
+		xRatio = (float(screenX) + randomComponent) / (m_screenWidth - 1);
+	
+	Ray ray = m_camera.getRay(xRatio, yRatio);
+	HitRecord rec = {};
+	if (m_world.isHit(ray, 0.0f, FLT_MAX, rec))
+		// we know the normal contains values between -1 and 1 so we convert it to values between 0 and 1
+		return (rec.surfaceNormal + Vec3(1.0, 1.0, 1.0)) / 2;
+	else
+		return bgPixelColor(ray);
+}
+
+Vec3 ImageGenerator::avgColor(int screenX, int screenY)
+{
+	HitRecord rec = {};
+	Vec3 rgb = { 0,0,0 };
+
+	for (int i = 0; i < m_antialiasingPrecision - 1; i++)
+	{
+		float randomComponent = m_distribution(m_generator);
+		rgb += calcColor(screenX, screenY, randomComponent);
+	}
+
+	// one time with no random in case there is no antialiasing
+	rgb += calcColor(screenX, screenY);
+	
+	if(m_antialiasingPrecision > 0)
+		rgb /= m_antialiasingPrecision; // divide by number of simulations => get average
+	
+	return rgb;
+}
+
 void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
 {
-	const float rgbMax = Constants::RGB_MAX;
+	const float rgbMax = float(Constants::RGB_MAX);
 	// clamp the values between 255 and 0
-	int r = std::min( std::max(rgb.x(), 0.0f), rgbMax);
-	int g = std::min(std::max(rgb.y(), 0.0f), rgbMax);
-	int b = std::min(std::max(rgb.z(), 0.0f), rgbMax);
+	int r = static_cast<int>(std::min(std::max(rgb.x(), 0.0f), rgbMax));
+	int g = static_cast<int>(std::min(std::max(rgb.y(), 0.0f), rgbMax));
+	int b = static_cast<int>(std::min(std::max(rgb.z(), 0.0f), rgbMax));
 	
 	outFile << r << ' ' << g << ' ' << b << std::endl;
 }
@@ -82,7 +86,7 @@ bool ImageGenerator::generateImage()
 	
 	// .ppm file specifications:
 	outputFile << Constants::PPM_FORMAT << std::endl;
-	outputFile << screenWidth << ' ' << screenHeight << std::endl;
+	outputFile << m_screenWidth << ' ' << m_screenHeight << std::endl;
 	outputFile << Constants::RGB_MAX << std::endl;
 
 	setPixels(outputFile);
