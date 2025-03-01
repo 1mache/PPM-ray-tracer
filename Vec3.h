@@ -14,10 +14,6 @@ public:
 	float y() const { return m_y; }
 	float z() const { return m_z; }
 
-	float& x() { return m_x; }
-	float& y() { return m_y; }
-	float& z() { return m_z; }
-
 	float squaredMagnitude() const
 	{
 		// dot product with itself is squared magnitude
