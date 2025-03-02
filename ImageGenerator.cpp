@@ -36,10 +36,24 @@ Vec3 ImageGenerator::calcColor(int screenX, int screenY, bool randomize)
 	}
 	
 	Ray ray = m_camera.getRay(xRatio, yRatio);
+	return colorByRay(ray);
+}
+
+Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
+{
 	HitRecord rec = {};
-	if (m_world.isHit(ray, 0.0f, FLT_MAX, rec))
-		// we know the normal contains values between -1 and 1 so we convert it to values between 0 and 1
-		return (rec.surfaceNormal + Vec3(1.0, 1.0, 1.0)) / 2;
+	float reflectionAmount = 0.5f;
+	if (m_world.isHit(ray, T_MIN, FLT_MAX, rec))
+	{
+		if(bounceCounter < MAX_RAY_BOUNCES)
+		{
+			// we`re looking at a sphere around our hit point
+			Vec3 hitSphereCenter = rec.hitPoint + rec.surfaceNormal;
+			Vec3 randomInHitSphere = randomInUnitSphere() + hitSphereCenter;
+			return reflectionAmount * colorByRay(Ray(rec.hitPoint, randomInHitSphere - rec.hitPoint), bounceCounter + 1);
+		}
+		return Vec3(0,0,0); // return black if the recursion depth is too big
+	}
 	else
 		return bgPixelColor(ray);
 }
@@ -70,7 +84,7 @@ Vec3 ImageGenerator::randomInUnitSphere()
 	{
 		// generate a vector with components 0 to 1. Transform so components are -1 to 1
 		v = 2 * Vec3(random0to1(), random0to1(), random0to1()) - Vec3(1,1,1);
-	} while (v.squaredMagnitude() <= 1); //repeat until we get something inside the sphere
+	} while (v.squaredMagnitude() >= 1); //repeat until we get something inside the sphere
 
 	return v;
 }

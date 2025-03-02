@@ -13,7 +13,11 @@
 
 class ImageGenerator
 {
-	using dimension_t = Constants::dimension_t;
+	using dimension_t = Constants::dimension_t;	
+	
+	// how many ray bounces we allow
+	static constexpr uint8_t MAX_RAY_BOUNCES = 50;
+	static constexpr float T_MIN = 0.001f;
 
 	const dimension_t m_screenWidth, m_screenHeight;
 	// Wigth to Height ratio
@@ -37,6 +41,8 @@ class ImageGenerator
 	void setPixels(std::ofstream& outputFile);
 	// returns color for the given pixel 
 	Vec3 calcColor(int screenX, int screenY, bool randomize = false);
+	// returns color based on what the ray hit
+	Vec3 colorByRay(const Ray& ray, int bounceCounter = 0);
 	// same as calcColor but with antialiasing
 	Vec3 calcAvgColor(int screenX, int screenY);
 	// generates a random vector inside the unit sphere
