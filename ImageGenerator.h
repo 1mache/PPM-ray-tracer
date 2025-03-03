@@ -9,21 +9,21 @@
 #include "IHitable.h"
 #include "HitableSet.h"
 #include "Sphere.h"
-#include "Constants.h"
+#include "Config.h"
+#include "Dimensions.h"
 
 class ImageGenerator
-{
-	using dimension_t = Constants::dimension_t;	
-	
+{		
 	// how many ray bounces we allow
 	static constexpr uint8_t MAX_RAY_BOUNCES = 50;
 	static constexpr float T_MIN = 0.001f;
+	static constexpr float T_MAX = FLT_MAX;
 
-	const dimension_t m_screenWidth, m_screenHeight;
+	const Dimensions m_screenSize;
 	// Wigth to Height ratio
 	float m_aspectRatio;
 	
-	Camera m_camera;
+	const Camera m_camera;
 
 	// random number generator
 	std::random_device m_rd;  // get a random seed from the OS
@@ -40,17 +40,17 @@ class ImageGenerator
 
 	void setPixels(std::ofstream& outputFile);
 	// returns color for the given pixel 
-	Vec3 calcColor(int screenX, int screenY, bool randomize = false);
+	Vec3 calcColor(const Dimensions& screenPoint, const Vec3& viewportRefPoint, bool randomize = false);
 	// returns color based on what the ray hit
 	Vec3 colorByRay(const Ray& ray, int bounceCounter = 0);
 	// same as calcColor but with antialiasing
-	Vec3 calcAvgColor(int screenX, int screenY);
+	Vec3 calcAvgColor(const Dimensions& screenPoint, const Vec3& viewportRefPoint);
 	// generates a random vector inside the unit sphere
 	Vec3 randomInUnitSphere();
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
 	Vec3 bgPixelColor(const Ray& ray);
 public:
-	ImageGenerator(dimension_t width, dimension_t height, float FOV, const HitableSet& world,
+	ImageGenerator(const Dimensions& screenSize, float FOV, const HitableSet& world,
 		const Vec3& camPosition = { 0,0,0 }, float viewportDist = 1);
 
 	bool generateImage();

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "Vec3.h"
-#include "Constants.h"
+#include "Config.h"
 #include <vector>
 
 namespace Utils
@@ -37,7 +37,7 @@ namespace Utils
         uint8_t b;
         uint8_t g;
         uint8_t r;
-        uint8_t reserved = 0;
+        uint8_t reserved = 0; // so that every pixel is 4 bytes
     };
 
 #pragma pack(pop) // restore allignment

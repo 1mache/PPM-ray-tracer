@@ -1,18 +1,15 @@
 #pragma once
 #include "Vec3.h"
+#include "Dimensions.h"
 
-namespace Constants
+// general program configurations 
+namespace Config
 {
-	// type for image dimensions
-	typedef uint16_t dimension_t;
-
-	constexpr dimension_t IMG_WIDTH = 600;
-	constexpr dimension_t IMG_HEIGHT = 400;
+	constexpr Dimensions SCREEN_SIZE = {600, 400};
 
 	// Max rgb value
-	constexpr size_t RGB_MAX = 255;
+	constexpr uint8_t RGB_MAX = 255;
 
-	constexpr Vec3 WHITE_COLOR = { 1.0f, 1.0f, 1.0f };
 	constexpr Vec3 BG_COLOR_FULL = {0.2f, 0.6f, 1.0f };
 
 	constexpr const char* PPM_OUTPUT_FILE_NAME = "output.ppm";

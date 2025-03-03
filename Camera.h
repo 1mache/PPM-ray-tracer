@@ -16,14 +16,15 @@ class Camera
 
 	// positive horizontal and vertical viewport dimensions as vectors
 	Vec3 m_horizontal, m_vertical;
-	Vec3 m_lowLeftCorner;
 public:
 	Camera(const Vec3& position, float FOV, float viewportDist, float screenAspectRatio);
 
 	Vec3 position() const { return m_position; }
 	float viewportWidth() const { return m_viewportWidth; };
 	float viewportHeight() const { return m_viewportHeight; };
+	float viewportDist() const { return m_viewportDist; }
 
-	Ray getRay(float xRatio, float yRatio) const;
+	// returns ray from camera to point in viewport
+	Ray getRay(float xRatio, float yRatio,const Vec3& referencePoint) const;
 };
 

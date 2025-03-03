@@ -1,7 +1,8 @@
 #pragma once
-#include "Constants.h"
+#include "Config.h"
 #include "Vec3.h"
 
+// ray = origin + t*direction. 
 class Ray
 {
 	Vec3 m_origin;
@@ -16,7 +17,6 @@ public:
 	Vec3 direction() const { return m_direction; }
 	Vec3 normalizedDirection() const { return m_direction.normalized(); }
 
-	// ray = origin + t*direction. 
 	// gets the point with given t
 	Vec3 pointByParam(float t) const
 	{

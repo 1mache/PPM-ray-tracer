@@ -10,13 +10,13 @@ int main(int argc, char* argv[])
 
 	HitableSet world = { new Sphere({ 0,0,-2.0f }, 0.5f) , new Sphere({0, -100.5f, -2.0f}, 100.0f) };
 
-	ImageGenerator generator(Constants::IMG_WIDTH, Constants::IMG_HEIGHT, FOVrad, world);
+	ImageGenerator generator(Config::SCREEN_SIZE, FOVrad, world);
 	
 	if (generator.generateImage())
 	{
 		std::cout << "Great success!\n";
 		std::cout << "Creating a .bmp file ... \n";
-		if (Utils::ppmToBmp(Constants::PPM_OUTPUT_FILE_NAME, Constants::BMP_OUTPUT_FILE_NAME))
+		if (Utils::ppmToBmp(Config::PPM_OUTPUT_FILE_NAME, Config::BMP_OUTPUT_FILE_NAME))
 		{
 			std::cout << "Great success!\n";
 		}

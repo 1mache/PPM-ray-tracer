@@ -16,22 +16,23 @@ bool Utils::ppmToBmp(const std::string& ppmFileName, const std::string& bmpFileN
         return false;
     }
 
-    if (format != Constants::PPM_FORMAT)
+    if (format != Config::PPM_FORMAT)
     {
         std::cout << "Error: Wrong file format, should be P3!\n";
         return false;
     }
 
-    Constants::dimension_t imgWidth, imgHeight, maxColor;
+    Dimensions::dimension_t imgWidth, imgHeight;
+    uint8_t maxColor;
     if (!(ppmFile >> imgWidth >> imgHeight >> maxColor))
     {
         std::cout << "Error: Couldnt read file dimensions\n";
         return false;
     }
 
-    if (maxColor != Constants::RGB_MAX)
+    if (maxColor != Config::RGB_MAX)
     {
-        std::cout << "Error: Wrong max color, should be:" << Constants::RGB_MAX << "\n";
+        std::cout << "Error: Wrong max color, should be:" << Config::RGB_MAX << "\n";
         return false;
     }
 
