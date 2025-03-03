@@ -45,6 +45,11 @@ class ImageGenerator
 	Vec3 colorByRay(const Ray& ray, int bounceCounter = 0);
 	// same as calcColor but with antialiasing
 	Vec3 calcAvgColor(const Dimensions& screenPoint, const Vec3& viewportRefPoint);
+	Vec3 gammaCorrection(const Vec3& inputPixel)
+	{
+		// raises input to the power of 1/2
+		return { sqrtf(inputPixel.x()), sqrtf(inputPixel.y()), sqrtf(inputPixel.z()) };
+	}
 	// generates a random vector inside the unit sphere
 	Vec3 randomInUnitSphere();
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);

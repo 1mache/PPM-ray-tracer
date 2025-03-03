@@ -20,9 +20,10 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 	{
 		for (int x = 0; x < m_screenSize.width; x++)
 		{
-			// times rgbMax to translate 0-1 values to 0-255 values
-			Vec3 rgb = calcAvgColor(Dimensions(x,y), lowLeftViewportCorner) * Config::RGB_MAX;
-			writeRgbValue(outputFile, rgb);
+			Vec3 rgb = calcAvgColor(Dimensions(x,y), lowLeftViewportCorner);
+			rgb = gammaCorrection(rgb);
+			
+			writeRgbValue(outputFile, rgb* Config::RGB_MAX); // times rgbMax to translate 0-1 values to 0-255 values
 		}
 	}
 }
