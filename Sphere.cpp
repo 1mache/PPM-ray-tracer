@@ -26,11 +26,9 @@ bool Sphere::isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record
 			t = t1;
 			tFound = true;
 		}
-		if (tMin <= t2 && t2 <= tMax) // is t2 in bounds
+		else if (tMin <= t2 && t2 <= tMax) // is t2 in bounds
 		{
-			// if we already have a t, pick the smaller out of the 2
-			if (tFound) t = std::min(t, t2);
-			else t = t2; // otherwise just pick t2
+			t = t2;
 			tFound = true;
 		}
 
