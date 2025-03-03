@@ -4,7 +4,7 @@ Camera::Camera(const Vec3& position, float FOV, float viewportDist, float screen
 	m_position(position), m_FOV(FOV), m_viewportDist(viewportDist)
 {
 	// height calculated from FOV using famous formula
-	m_viewportHeight = 2 * (tan(FOV / 2) * viewportDist); // see explanation in materials
+	m_viewportHeight = 2 * (tan(FOV / 2) * viewportDist); // see explanation in /theory
 	// width is calculated from height using aspect ratio
 	m_viewportWidth = m_viewportHeight * screenAspectRatio;
 
@@ -13,11 +13,16 @@ Camera::Camera(const Vec3& position, float FOV, float viewportDist, float screen
 	// y positive is up, x positive is right
 }
 
-Ray Camera::getRay(float xRatio, float yRatio, const Vec3& referencePoint) const
+Vec3 Camera::screenToViewportPos(const Dimensions& pixelCords) const
 {
-	// using the ratio and referencePoint translate screen point to viewport point
-	Vec3 viewportPoint = referencePoint + (xRatio * m_horizontal) + (yRatio * m_vertical);
+	// I use the top left corner as reference point
 
-	// cast ray from cam position to the point we calculated
-	return Ray(m_position, viewportPoint-m_position);
+	Vec3 topLeftViewportCorner = Vec3(-m_viewportWidth / 2,
+		m_viewportHeight / 2,
+		viewportZ());
+
+	Vec3 downBy = m_vertical * (float(pixelCords.height) / (Config::SCREEN_SIZE.height - 1));
+	Vec3 rightBy = m_horizontal * (float(pixelCords.width) / (Config::SCREEN_SIZE.width - 1));
+
+	return topLeftViewportCorner - downBy + rightBy;
 }

@@ -22,9 +22,16 @@ public:
 	Vec3 position() const { return m_position; }
 	float viewportWidth() const { return m_viewportWidth; };
 	float viewportHeight() const { return m_viewportHeight; };
-	float viewportDist() const { return m_viewportDist; }
+	// returns the viewports z position
+	float viewportZ() const { return m_position.z() - m_viewportDist; }
 
 	// returns ray from camera to point in viewport
-	Ray getRay(float xRatio, float yRatio,const Vec3& referencePoint) const;
+	Ray getRay(const Vec3& viewportPoint) const
+	{
+		return Ray(m_position, viewportPoint - m_position);
+	}
+
+	// transformation pixel(x,y) -> point in viewport
+	Vec3 screenToViewportPos(const Dimensions& pixelCords) const;
 };
 

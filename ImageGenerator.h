@@ -40,11 +40,11 @@ class ImageGenerator
 
 	void setPixels(std::ofstream& outputFile);
 	// returns color for the given pixel 
-	Vec3 calcColor(const Dimensions& screenPoint, const Vec3& viewportRefPoint, bool randomize = false);
+	Vec3 calcColor(const Dimensions& screenPoint, bool randomize = false);
 	// returns color based on what the ray hit
 	Vec3 colorByRay(const Ray& ray, int bounceCounter = 0);
 	// same as calcColor but with antialiasing
-	Vec3 calcAvgColor(const Dimensions& screenPoint, const Vec3& viewportRefPoint);
+	Vec3 calcAvgColor(const Dimensions& screenPoint);
 	Vec3 gammaCorrection(const Vec3& inputPixel)
 	{
 		// raises input to the power of 1/2

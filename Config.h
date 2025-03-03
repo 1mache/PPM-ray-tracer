@@ -8,7 +8,7 @@ namespace Config
 	constexpr Dimensions SCREEN_SIZE = {600, 400};
 
 	// Max rgb value
-	constexpr uint8_t RGB_MAX = 255;
+	constexpr int RGB_MAX = 255;
 
 	constexpr Vec3 BG_COLOR_FULL = {0.2f, 0.6f, 1.0f };
 

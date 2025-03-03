@@ -10,17 +10,13 @@ ImageGenerator::ImageGenerator(const Dimensions& screenSize, float FOV, const Hi
 
 void ImageGenerator::setPixels(std::ofstream& outputFile)
 {
-	// used as reference point for ray shooting
-	Vec3 lowLeftViewportCorner = Vec3(-m_camera.viewportWidth() / 2,
-		-m_camera.viewportHeight() / 2,
-		-m_camera.viewportDist());
-
-	// going from low left up and right
-	for (int y = m_screenSize.height-1; y >=0; y--)
+	for (int y = 0; y < m_screenSize.height; y++)
 	{
 		for (int x = 0; x < m_screenSize.width; x++)
 		{
-			Vec3 rgb = calcAvgColor(Dimensions(x,y), lowLeftViewportCorner);
+			if (y == m_screenSize.height - 1)
+				int a = 1;
+			Vec3 rgb = calcAvgColor(Dimensions(x,y));
 			rgb = gammaCorrection(rgb);
 			
 			writeRgbValue(outputFile, rgb* Config::RGB_MAX); // times rgbMax to translate 0-1 values to 0-255 values
@@ -28,21 +24,18 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 	}
 }
 
-Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, const Vec3& viewportRefPoint, bool randomize)
+Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
 {
-	float xRatio, yRatio;
-
-	yRatio = (float(screenPoint.height)) / (m_screenSize.height - 1);
-	xRatio = (float(screenPoint.width)) / (m_screenSize.width - 1);
+	Vec3 viewportPoint = m_camera.screenToViewportPos(screenPoint);
 
 	if(randomize) 
 	{
 		// add random offsets if randomization was requested
-		yRatio += random0to1() / (m_screenSize.height - 1);
-		xRatio += random0to1() / (m_screenSize.width - 1);
+		viewportPoint.y() += random0to1() / (m_screenSize.height - 1);
+		viewportPoint.x() += random0to1() / (m_screenSize.width - 1);
 	}
 	
-	Ray ray = m_camera.getRay(xRatio, yRatio, viewportRefPoint);
+	Ray ray = m_camera.getRay(viewportPoint);
 	return colorByRay(ray);
 }
 
@@ -65,18 +58,18 @@ Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 		return bgPixelColor(ray);
 }
 
-Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint, const Vec3& viewportRefPoint)
+Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
 {
 	HitRecord rec = {};
 	Vec3 rgb = { 0,0,0 };
 
 	for (int i = 0; i < m_antialiasingPrecision - 1; i++)
 	{
-		rgb += calcColor(screenPoint, viewportRefPoint ,true);
+		rgb += calcColor(screenPoint ,true);
 	}
 
 	// one time with no random in case there is no antialiasing
-	rgb += calcColor(screenPoint, viewportRefPoint);
+	rgb += calcColor(screenPoint);
 	
 	if(m_antialiasingPrecision > 0)
 		rgb /= m_antialiasingPrecision; // divide by number of simulations => get average

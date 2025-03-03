@@ -23,7 +23,7 @@ bool Utils::ppmToBmp(const std::string& ppmFileName, const std::string& bmpFileN
     }
 
     Dimensions::dimension_t imgWidth, imgHeight;
-    uint8_t maxColor;
+    int maxColor;
     if (!(ppmFile >> imgWidth >> imgHeight >> maxColor))
     {
         std::cout << "Error: Couldnt read file dimensions\n";
@@ -39,7 +39,7 @@ bool Utils::ppmToBmp(const std::string& ppmFileName, const std::string& bmpFileN
     BMPHeader bmpHeader = {};
     DIBHeader dibHeader = {};
 
-    dibHeader.height = -imgHeight; // without the minus the image is upside down
+    dibHeader.height = -imgHeight; // minus to mirror the image vertically, otherwise the image is upside down 
     dibHeader.width = imgWidth;
     uint32_t rowSize = imgWidth * sizeof(BGRQuad);
     dibHeader.imageSize = rowSize * imgHeight;
