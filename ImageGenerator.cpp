@@ -14,8 +14,6 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 	{
 		for (int x = 0; x < m_screenSize.width; x++)
 		{
-			if (y == m_screenSize.height - 1)
-				int a = 1;
 			Vec3 rgb = calcAvgColor(Dimensions(x,y));
 			rgb = gammaCorrection(rgb);
 			
