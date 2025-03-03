@@ -19,5 +19,5 @@ Ray Camera::getRay(float xRatio, float yRatio, const Vec3& referencePoint) const
 	Vec3 viewportPoint = referencePoint + (xRatio * m_horizontal) + (yRatio * m_vertical);
 
 	// cast ray from cam position to the point we calculated
-	return Ray(m_position, viewportPoint);
+	return Ray(m_position, viewportPoint-m_position);
 }
