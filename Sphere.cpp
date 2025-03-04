@@ -8,8 +8,8 @@ bool Sphere::isHit(const Ray& ray, Interval tInterval, HitRecord& out_record) co
 	// We ask is there a param t in ray equation that satisfies that.
 
 	Vec3 oc = ray.origin() - m_center;
-	float a = dot(ray.normalizedDirection(), ray.normalizedDirection());
-	float b = 2.0f * dot(oc, ray.normalizedDirection());
+	float a = dot(ray.direction(), ray.direction());
+	float b = 2.0f * dot(oc, ray.direction());
 	float c = dot(oc, oc) - m_radius * m_radius;
 
 	float discriminant = b * b - 4 * a * c; // good ol` discriminant

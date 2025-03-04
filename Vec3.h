@@ -10,11 +10,8 @@ public:
 		m_x(x), m_y(y), m_z(z) {};
 
 	float x() const { return m_x; }
-	float& x() { return m_x; }
 	float y() const { return m_y; }
-	float& y() { return m_y; }
 	float z() const { return m_z; }
-	float& z() { return m_z; }
 
 	float squaredMagnitude() const
 	{

@@ -29,9 +29,11 @@ Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
 
 	if(randomize) 
 	{
-		// add random offsets if randomization was requested
-		viewportPoint.y() += random0to1() / (m_screenSize.height - 1);
-		viewportPoint.x() += random0to1() / (m_screenSize.width - 1);
+		// add random offset if randomization was requested
+		Vec3 offset = { (random0to1() - 0.5f)/ (m_screenSize.height - 1), 
+						(random0to1() - 0.5f)/ (m_screenSize.width - 1),
+						0.0f }; // offset is inside the single viewport pixel borders
+		viewportPoint += offset;
 	}
 	
 	Ray ray = m_camera.getRay(viewportPoint);
@@ -46,15 +48,13 @@ Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 	{
 		if(bounceCounter < MAX_RAY_BOUNCES)
 		{
-			// we`re looking at a sphere around our hit point
-			Vec3 hitSphereCenter = rec.hitPoint + rec.surfaceNormal;
-			Vec3 randomInHitSphere = randomInUnitSphere() + hitSphereCenter;
-			return reflectionAmount * colorByRay(Ray(rec.hitPoint, randomInHitSphere - rec.hitPoint), bounceCounter + 1);
+			Vec3 bounceDirection = rec.surfaceNormal + randomOnUnitSphere();
+			return reflectionAmount * colorByRay(Ray(rec.hitPoint, bounceDirection), bounceCounter + 1);
 		}
 		return Vec3(0,0,0); // return black if the recursion depth is too big
 	}
-	else
-		return bgPixelColor(ray);
+	
+	return bgPixelColor(ray);
 }
 
 Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
@@ -76,16 +76,20 @@ Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
 	return rgb;
 }
 
-Vec3 ImageGenerator::randomInUnitSphere()
+Vec3 ImageGenerator::randomOnUnitSphere()
 {
 	Vec3 v;
+	float vSquaredMag;
+	float minimumMag = 0.0001f;
 	do
 	{
 		// generate a vector with components 0 to 1. Transform so components are -1 to 1
 		v = 2 * Vec3(random0to1(), random0to1(), random0to1()) - Vec3(1.0f,1.0f,1.0f);
-	} while (v.squaredMagnitude() >= 1); //repeat until we get something inside the unit sphere
+		vSquaredMag = v.squaredMagnitude();
+	} while (vSquaredMag > 1 || vSquaredMag < minimumMag); 
+	//repeat until we get something inside the unit sphere but not too small
 
-	return v;
+	return v.normalized();
 }
 
 void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
@@ -102,11 +106,12 @@ void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
 Vec3 ImageGenerator::bgPixelColor(const Ray& ray)
 {
 	Vec3 whiteColor = { 1.0f, 1.0f, 1.0f };
+	Vec3 normalizedRayDirection = ray.direction().normalized();
 	// gradient based on y coordinate:
 	// we know that direction is normalized => -1 <= y <= 1
 	// so +1 and /2 gives value in between 0 and 1 therefore gradient
-	float t = (ray.normalizedDirection().y() + 1.0f) / 2;
-	return (1.0f - t) * whiteColor + t * Config::BG_COLOR_FULL; // lerp bg color
+	float t = (normalizedRayDirection.y() + 1.0f) / 2;
+	return ((1.0f - t) * whiteColor + t * Config::BG_COLOR_FULL) * 0.5; // lerp bg color
 }
 
 bool ImageGenerator::generateImage()

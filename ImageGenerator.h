@@ -29,7 +29,7 @@ class ImageGenerator
 		return m_distribution(m_generator);
 	}
 
-	const uint8_t m_antialiasingPrecision = 10; // should be 0 if turned off
+	const uint8_t m_antialiasingPrecision = 10; // 0 to turn off
 
 	const HitableSet& m_world;
 
@@ -46,7 +46,7 @@ class ImageGenerator
 		return { sqrtf(inputPixel.x()), sqrtf(inputPixel.y()), sqrtf(inputPixel.z()) };
 	}
 	// generates a random vector inside the unit sphere
-	Vec3 randomInUnitSphere();
+	Vec3 randomOnUnitSphere();
 	// expects color values 0-1 and writes them as 0-255 to a file
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
 	Vec3 bgPixelColor(const Ray& ray);
