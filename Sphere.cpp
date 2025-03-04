@@ -37,7 +37,11 @@ bool Sphere::isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record
 		{
 			out_record.t = t;
 			out_record.hitPoint = ray.pointByParam(t);
-			out_record.surfaceNormal = (out_record.hitPoint - m_center).normalized();
+			// this calculation always gives us outwards normal
+			out_record.surfaceNormal = (out_record.hitPoint - m_center) / m_radius; //  is unit length
+			out_record.frontFace = dot(ray.direction(), out_record.surfaceNormal) < 0;
+			// if the ray is coming from the inside, the surface normal should point inwards
+			if (!out_record.frontFace) out_record.surfaceNormal = -out_record.surfaceNormal; 
 			return true;
 		}
 	}

@@ -7,6 +7,7 @@ struct HitRecord
 	float t;
 	Vec3 hitPoint;
 	Vec3 surfaceNormal;
+	bool frontFace; // whether the normal is pointing "out" of the object
 };
 
 class IHitable

@@ -12,12 +12,13 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 {
 	for (int y = 0; y < m_screenSize.height; y++)
 	{
+		std::clog << "Lines remaining: " << m_screenSize.height - 1 - y  << '\n' << std::flush;
 		for (int x = 0; x < m_screenSize.width; x++)
 		{
 			Vec3 rgb = calcAvgColor(Dimensions(x,y));
 			rgb = gammaCorrection(rgb);
 			
-			writeRgbValue(outputFile, rgb* Config::RGB_MAX); // times rgbMax to translate 0-1 values to 0-255 values
+			writeRgbValue(outputFile, rgb);
 		}
 	}
 }
@@ -91,9 +92,9 @@ void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
 {
 	const float rgbMax = float(Config::RGB_MAX);
 	// clamp the values between 255 and 0
-	int r = static_cast<int>(std::min(std::max(rgb.x(), 0.0f), rgbMax));
-	int g = static_cast<int>(std::min(std::max(rgb.y(), 0.0f), rgbMax));
-	int b = static_cast<int>(std::min(std::max(rgb.z(), 0.0f), rgbMax));
+	int r = static_cast<int>(std::min(std::max(rgb.x() * rgbMax, 0.0f), rgbMax));
+	int g = static_cast<int>(std::min(std::max(rgb.y() * rgbMax, 0.0f), rgbMax));
+	int b = static_cast<int>(std::min(std::max(rgb.z() * rgbMax, 0.0f), rgbMax));
 	
 	outFile << r << ' ' << g << ' ' << b << std::endl;
 }

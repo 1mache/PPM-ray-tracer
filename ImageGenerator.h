@@ -52,6 +52,7 @@ class ImageGenerator
 	}
 	// generates a random vector inside the unit sphere
 	Vec3 randomInUnitSphere();
+	// expects color values 0-1 and writes them as 0-255 to a file
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
 	Vec3 bgPixelColor(const Ray& ray);
 public:

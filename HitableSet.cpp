@@ -14,7 +14,7 @@ bool HitableSet::isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_re
 	// iterate over our objects and check if we hit any 
 	for (auto* hitable : m_hitables)
 	{
-		if (hitable->isHit(ray, 0.0f ,tClosestSoFar ,out_record))
+		if (hitable->isHit(ray, tMin ,tClosestSoFar ,out_record))
 		{
 			hitSomething = true;
 			// we are looking for the closest thing we hit, thats why we
