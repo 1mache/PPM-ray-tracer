@@ -22,7 +22,8 @@ class ImageGenerator
 	// random number generator
 	std::random_device m_rd;  // get a random seed from the OS
 	std::mt19937 m_generator = std::mt19937(m_rd()); // initialize PRNG with the seed
-	std::uniform_real_distribution<float> m_distribution{0.0f, 1.0f}; // initialize distribution
+	std::uniform_real_distribution<float> m_distribution{ 0.0f, 1.0f }; // initialize distribution
+
 	float random0to1()
 	{
 		return m_distribution(m_generator);

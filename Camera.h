@@ -12,9 +12,10 @@ class Camera
 	// the width and height of the "window" we're looking at the world through
 	// calculated using FOV
 	float m_viewportWidth, m_viewportHeight;
+	
+	// viewport pixel size (z is 0) 
+	Vec3 m_pixelSize;
 
-	// positive horizontal and vertical viewport dimensions as vectors
-	Vec3 m_horizontal, m_vertical;
 public:
 	Camera(const Vec3& position, float FOV, float viewportDist, float screenAspectRatio);
 
@@ -30,7 +31,7 @@ public:
 		return Ray(m_position, viewportPoint - m_position);
 	}
 
-	// transformation pixel(x,y) -> point in viewport
+	// transformation pixel(x,y) -> pixels center in viewport
 	Vec3 screenToViewportPos(const Dimensions& pixelCords) const;
 };
 
