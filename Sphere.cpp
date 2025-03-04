@@ -1,6 +1,6 @@
 #include "Sphere.h"
 
-bool Sphere::isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const
+bool Sphere::isHit(const Ray& ray, Interval tInterval, HitRecord& out_record) const
 {
 	// The components of the quadratic equation are derived from 
 	// dot(p-c, p-c) = r^2 where p is a point on a ray ,c is the center of the sphere
@@ -21,12 +21,12 @@ bool Sphere::isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record
 		float t2 = (-b + sqrt(discriminant)) / (2 * a); 
 		float t; // final t
 		bool tFound = false; // did we find a "good" t 
-		if (tMin <= t1 && t1 <= tMax) // is t1 in bounds
+		if (tInterval.contains(t1)) // is t1 in bounds
 		{
 			t = t1;
 			tFound = true;
 		}
-		else if (tMin <= t2 && t2 <= tMax) // is t2 in bounds
+		else if (tInterval.contains(t2)) // is t2 in bounds
 		{
 			t = t2;
 			tFound = true;

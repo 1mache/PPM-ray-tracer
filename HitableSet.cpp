@@ -6,15 +6,15 @@ HitableSet::~HitableSet()
 		delete hitable;
 }
 
-bool HitableSet::isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const
+bool HitableSet::isHit(const Ray& ray, Interval tInterval, HitRecord& out_record) const
 {
 	bool hitSomething = false;
 	// t of the closest object we hit so far
-	float tClosestSoFar = tMax;
+	float tClosestSoFar = tInterval.max();
 	// iterate over our objects and check if we hit any 
 	for (auto* hitable : m_hitables)
 	{
-		if (hitable->isHit(ray, tMin ,tClosestSoFar ,out_record))
+		if (hitable->isHit(ray, {tInterval.min(), tClosestSoFar}, out_record))
 		{
 			hitSomething = true;
 			// we are looking for the closest thing we hit, thats why we

@@ -13,5 +13,5 @@ class IHitable
 {
 public:
 	virtual ~IHitable() = default;
-	virtual bool isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const = 0;
+	virtual bool isHit(const Ray& ray, Interval tInterval, HitRecord& out_record) const = 0;
 };

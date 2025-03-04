@@ -11,8 +11,7 @@ class ImageGenerator
 {		
 	// how many ray bounces we allow
 	static constexpr uint8_t MAX_RAY_BOUNCES = 50;
-	static constexpr float T_MIN = 0.001f;
-	static constexpr float T_MAX = FLT_MAX;
+	static constexpr Interval T_INTERVAL = { 0.001f, FLT_MAX };
 
 	const Dimensions m_screenSize;
 	// Wigth to Height ratio

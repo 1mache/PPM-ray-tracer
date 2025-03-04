@@ -42,7 +42,7 @@ Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 {
 	HitRecord rec = {};
 	float reflectionAmount = 0.5f;
-	if (m_world.isHit(ray, T_MIN, T_MAX, rec))
+	if (m_world.isHit(ray, T_INTERVAL, rec))
 	{
 		if(bounceCounter < MAX_RAY_BOUNCES)
 		{

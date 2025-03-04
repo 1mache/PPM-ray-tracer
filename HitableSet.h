@@ -15,5 +15,5 @@ public:
 	~HitableSet() override;
 	size_t size() const { return m_hitables.size(); }
 	
-	bool isHit(const Ray& ray, float tMin, float tMax, HitRecord& out_record) const override;
+	bool isHit(const Ray& ray, Interval tInterval, HitRecord& out_record) const override;
 };

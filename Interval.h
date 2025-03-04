@@ -3,7 +3,7 @@ class Interval
 {
 	float m_min, m_max;
 public:
-	Interval(float min, float max) : m_min(min), m_max(max) {}
+	constexpr Interval(float min, float max) : m_min(min), m_max(max) {}
 	
 	float max() const { return m_max; }
 	float min() const { return m_min; }
