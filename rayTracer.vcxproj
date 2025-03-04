@@ -142,6 +142,8 @@
     <ClInclude Include="HitableSet.h" />
     <ClInclude Include="IHitable.h" />
     <ClInclude Include="ImageGenerator.h" />
+    <ClInclude Include="Interval.h" />
+    <ClInclude Include="ppmRT.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Utils.h" />

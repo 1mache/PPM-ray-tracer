@@ -65,5 +65,11 @@
     <ClInclude Include="Dimensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Interval.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ppmRT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

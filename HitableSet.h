@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "IHitable.h"
 
 class HitableSet: public IHitable

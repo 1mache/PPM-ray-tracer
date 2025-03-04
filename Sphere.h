@@ -1,5 +1,4 @@
 #pragma once
-#include "Vec3.h"
 #include "IHitable.h"
 
 class Sphere : public IHitable

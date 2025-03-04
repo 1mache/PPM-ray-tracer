@@ -1,6 +1,5 @@
 #pragma once
-#include "Ray.h"
-#include "Vec3.h"
+#include "ppmRT.h"
 
 struct HitRecord
 {

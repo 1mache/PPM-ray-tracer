@@ -1,16 +1,11 @@
 #pragma once
 #include <fstream>
-#include <iostream>
-#include <math.h>
 #include <random>
-#include "Vec3.h"
+#include "ppmRT.h"
 #include "Camera.h"
-#include "Ray.h"
 #include "IHitable.h"
 #include "HitableSet.h"
 #include "Sphere.h"
-#include "Config.h"
-#include "Dimensions.h"
 
 class ImageGenerator
 {		

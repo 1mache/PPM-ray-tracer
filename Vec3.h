@@ -1,6 +1,5 @@
 #pragma once
 #include <ostream>
-#include <math.h>
 
 class Vec3
 {
@@ -19,8 +18,8 @@ public:
 
 	float squaredMagnitude() const
 	{
-		// dot product with itself is squared magnitude
-		return dot(*this, *this);
+		// dot product with itself
+		return m_x*m_x + m_y*m_y + m_z*m_z;
 	}
 
 	float magnitude() const
