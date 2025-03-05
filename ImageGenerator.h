@@ -1,6 +1,5 @@
 #pragma once
 #include <fstream>
-#include <random>
 #include "ppmRT.h"
 #include "Camera.h"
 #include "IHitable.h"
@@ -8,7 +7,9 @@
 #include "Sphere.h"
 
 class ImageGenerator
-{		
+{
+	using RNG = Utils::RNG;
+
 	// color of the background
 	static constexpr Vec3 BG_COLOR_FULL = { 0.2f, 0.6f, 1.0f };
 	// how many ray bounces we allow
@@ -20,16 +21,6 @@ class ImageGenerator
 	float m_aspectRatio;
 	
 	const Camera m_camera;
-
-	// random number generator
-	std::random_device m_rd;  // get a random seed from the OS
-	std::mt19937 m_generator = std::mt19937(m_rd()); // initialize PRNG with the seed
-	std::uniform_real_distribution<float> m_distribution{ 0.0f, 1.0f }; // initialize distribution
-
-	float random0to1()
-	{
-		return m_distribution(m_generator);
-	}
 
 	const uint8_t m_antialiasingPrecision = 10; // 0 to turn off
 
@@ -47,8 +38,6 @@ class ImageGenerator
 		// raises input to the power of 1/2
 		return { sqrtf(inputPixel.x()), sqrtf(inputPixel.y()), sqrtf(inputPixel.z()) };
 	}
-	// generates a random vector inside the unit sphere
-	Vec3 randomOnUnitSphere();
 	// expects color values 0-1 and writes them as 0-255 to a file
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
 	Vec3 bgPixelColor(const Ray& ray);

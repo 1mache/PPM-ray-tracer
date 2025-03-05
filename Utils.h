@@ -1,9 +1,11 @@
 #pragma once
 #include <fstream>
 #include <iostream>
+#include <random>
+#include <vector>
 #include "Vec3.h"
 #include "Config.h"
-#include <vector>
+#include "Interval.h"
 
 namespace Utils
 {
@@ -43,4 +45,28 @@ namespace Utils
 #pragma pack(pop) // restore allignment
 
     bool ppmToBmp(const std::string& ppmFileName, const std::string& bmpFileName);
+
+    class RNG
+    {
+        inline static std::random_device m_rd; // get a random seed from the OS
+        // initialize PRNG with the seed
+        inline static std::mt19937 m_generator = std::mt19937(m_rd());
+        // initialize distribution
+        inline static std::uniform_real_distribution<float> m_distribution{ 0.0f, 1.0f };
+
+    public:
+        static float random0to1()
+        {
+            return m_distribution(m_generator);
+        };
+
+        static Vec3 randomVector(const Interval& elementInterval)
+        {
+            Vec3 result = { random0to1(), random0to1(), random0to1() };
+            // get result in the range of the given interval
+            result *= elementInterval.size();
+            result += Vec3(elementInterval.min(), elementInterval.min(), elementInterval.min());
+            return result;
+        };
+    };
 };

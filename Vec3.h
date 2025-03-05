@@ -29,6 +29,15 @@ public:
 	{
 		return *this / magnitude();
 	}
+	
+	// True of all the elements of the vector are close to 0
+	bool nearZero() const 
+	{
+		float zeroThreshold = 1e-8;
+		return fabs(m_x) < zeroThreshold &&
+			fabs(m_y) < zeroThreshold &&
+			fabs(m_z) < zeroThreshold;
+	}
 
 	Vec3 operator-() const { return { -m_x, -m_y, -m_z }; }
 	Vec3 operator+(const Vec3& other) const { 

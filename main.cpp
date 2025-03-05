@@ -1,12 +1,21 @@
 #include "ppmRT.h"
 #include "ImageGenerator.h"
+#include "Material.h"
+#include "Lambertian.h"
 
 int main(int argc, char* argv[])
 {
 	// 90 degree FOV for now, which is pi/2 rad
 	float FOVrad = float(M_PI / 2);
 
-	HitableSet world = { new Sphere({ 0.0f,0.0f,-2.0f }, 0.5f) , new Sphere({0.0f, -100.5f, -2.0f}, 100.0f) };
+	auto reddishAlbedo = Vec3(0.8, 0.3, 0.3);
+	auto greenishAlbedo = Vec3(0.5, 0.8, 0.5);
+
+	std::shared_ptr<Material> reddishMatte = std::make_shared<Lambertian>(reddishAlbedo);
+	std::shared_ptr<Material> greenishMatte = std::make_shared<Lambertian>(greenishAlbedo);
+
+	HitableSet world = { new Sphere({ 0.0f,-0.5f,-2.0f }, 0.5f, reddishMatte) ,
+		new Sphere({0.0f, -100.5f, -2.0f}, 100.0f, greenishMatte) };
 
 	ImageGenerator generator(Config::SCREEN_SIZE, FOVrad, world);
 	

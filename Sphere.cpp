@@ -42,6 +42,8 @@ bool Sphere::isHit(const Ray& ray, Interval tInterval, HitRecord& out_record) co
 			out_record.frontFace = dot(ray.direction(), out_record.surfaceNormal) < 0;
 			// if the ray is coming from the inside, the surface normal should point inwards
 			if (!out_record.frontFace) out_record.surfaceNormal = -out_record.surfaceNormal; 
+
+			out_record.material = m_material;
 			return true;
 		}
 	}

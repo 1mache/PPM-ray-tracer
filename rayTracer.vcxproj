@@ -105,6 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,6 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +133,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="HitableSet.cpp" />
     <ClCompile Include="ImageGenerator.cpp" />
+    <ClCompile Include="Lambertian.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -143,6 +146,8 @@
     <ClInclude Include="IHitable.h" />
     <ClInclude Include="ImageGenerator.h" />
     <ClInclude Include="Interval.h" />
+    <ClInclude Include="Lambertian.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="ppmRT.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Sphere.h" />

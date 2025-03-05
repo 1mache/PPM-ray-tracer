@@ -32,8 +32,8 @@ Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
 	if(randomize) 
 	{
 		// add random offset if randomization was requested
-		Vec3 offset = { (random0to1() - 0.5f)/ (m_screenSize.height - 1), 
-						(random0to1() - 0.5f)/ (m_screenSize.width - 1),
+		Vec3 offset = { (RNG::random0to1() - 0.5f)/ (m_screenSize.height - 1), 
+						(RNG::random0to1() - 0.5f)/ (m_screenSize.width - 1),
 						0.0f }; // offset is inside the single viewport pixel borders
 		viewportPoint += offset;
 	}
@@ -50,8 +50,11 @@ Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 	{
 		if(bounceCounter < MAX_RAY_BOUNCES)
 		{
-			Vec3 bounceDirection = rec.surfaceNormal + randomOnUnitSphere();
-			return reflectionAmount * colorByRay(Ray(rec.hitPoint, bounceDirection), bounceCounter + 1);
+			Vec3 attenuation;
+			Ray scattered;
+			rec.material->scatter(ray, rec, attenuation, scattered);
+			return attenuation * 
+				   colorByRay(scattered, bounceCounter + 1);
 		}
 		return Vec3(0,0,0); // return black if the recursion depth is too big
 	}
@@ -76,22 +79,6 @@ Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
 		rgb /= m_antialiasingPrecision; // divide by number of simulations => get average
 	
 	return rgb;
-}
-
-Vec3 ImageGenerator::randomOnUnitSphere()
-{
-	Vec3 v;
-	float vSquaredMag;
-	float minimumMag = 0.0001f;
-	do
-	{
-		// generate a vector with components 0 to 1. Transform so components are -1 to 1
-		v = 2 * Vec3(random0to1(), random0to1(), random0to1()) - Vec3(1.0f,1.0f,1.0f);
-		vSquaredMag = v.squaredMagnitude();
-	} while (vSquaredMag > 1 || vSquaredMag < minimumMag); 
-	//repeat until we get something inside the unit sphere but not too small
-
-	return v.normalized();
 }
 
 void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
