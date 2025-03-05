@@ -10,8 +10,6 @@ namespace Config
 	// Max rgb value
 	constexpr int RGB_MAX = 255;
 
-	constexpr Vec3 BG_COLOR_FULL = {0.2f, 0.6f, 1.0f };
-
 	constexpr const char* PPM_OUTPUT_FILE_NAME = "output.ppm";
 	constexpr const char* BMP_OUTPUT_FILE_NAME = "output.bmp";
 

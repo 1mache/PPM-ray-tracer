@@ -12,7 +12,7 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 {
 	for (int y = 0; y < m_screenSize.height; y++)
 	{
-		std::clog << "Lines remaining: " << m_screenSize.height - 1 - y  << '\n' << std::flush;
+		std::clog << "\rProcessing line number: " << y+1 << std::flush;
 		for (int x = 0; x < m_screenSize.width; x++)
 		{
 			Vec3 rgb = calcAvgColor(Dimensions(x,y));
@@ -21,6 +21,8 @@ void ImageGenerator::setPixels(std::ofstream& outputFile)
 			writeRgbValue(outputFile, rgb);
 		}
 	}
+
+	std::clog << std::endl;
 }
 
 Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
@@ -111,7 +113,7 @@ Vec3 ImageGenerator::bgPixelColor(const Ray& ray)
 	// we know that direction is normalized => -1 <= y <= 1
 	// so +1 and /2 gives value in between 0 and 1 therefore gradient
 	float t = (normalizedRayDirection.y() + 1.0f) / 2;
-	return ((1.0f - t) * whiteColor + t * Config::BG_COLOR_FULL) * 0.5; // lerp bg color
+	return ((1.0f - t) * whiteColor + t * BG_COLOR_FULL) * 0.5; // lerp bg color
 }
 
 bool ImageGenerator::generateImage()

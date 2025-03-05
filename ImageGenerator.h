@@ -9,6 +9,8 @@
 
 class ImageGenerator
 {		
+	// color of the background
+	static constexpr Vec3 BG_COLOR_FULL = { 0.2f, 0.6f, 1.0f };
 	// how many ray bounces we allow
 	static constexpr uint8_t MAX_RAY_BOUNCES = 50;
 	static constexpr Interval T_INTERVAL = { 0.001f, FLT_MAX };
