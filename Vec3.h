@@ -39,6 +39,21 @@ public:
 			fabs(m_z) < zeroThreshold;
 	}
 
+	// dot(*this, other) = length of projection of this on other times length of other
+	// and if other is normalized:
+	// => projected vector = other * dot(...)
+	Vec3 projectionOn(const Vec3& other)
+	{
+		Vec3 otherNorm = other.normalized();
+
+		return other * dot(*this, otherNorm);
+	} 
+	// same but here it is assumed we project onto a NORMALIZED vector
+	Vec3 projectionOnNormalized(const Vec3& normalizedOther)
+	{
+		return normalizedOther * dot(*this, normalizedOther);
+	}
+
 	Vec3 operator-() const { return { -m_x, -m_y, -m_z }; }
 	Vec3 operator+(const Vec3& other) const { 
 		return { m_x + other.m_x,
