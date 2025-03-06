@@ -41,9 +41,15 @@ class ImageGenerator
 	// expects color values 0-1 and writes them as 0-255 to a file
 	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
 	Vec3 bgPixelColor(const Ray& ray);
+
 public:
-	ImageGenerator(const Dimensions& screenSize, float FOV, const HitableSet& world,
-		const Vec3& camPosition = { 0,0,0 }, float viewportDist = 1);
+	explicit ImageGenerator(
+		const Dimensions& screenSize, 
+		const HitableSet& world,
+		const Vec3& camPosition = { 0,0,0 }, 
+		float FOV = M_PI/2,
+		float viewportDist = 1
+	);
 
 	bool generateImage();
 };

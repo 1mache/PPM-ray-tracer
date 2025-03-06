@@ -5,9 +5,6 @@
 
 int main(int argc, char* argv[])
 {
-	// 90 degree FOV for now, which is pi/2 rad
-	float FOVrad = float(M_PI / 2);
-
 	auto reddishAlbedo = Vec3(0.8, 0.3, 0.3);
 	auto greenishAlbedo = Vec3(0.5, 0.8, 0.5);
 
@@ -17,7 +14,7 @@ int main(int argc, char* argv[])
 	HitableSet world = { new Sphere({ 0.0f,-0.5f,-2.0f }, 0.5f, reddishMatte) ,
 		new Sphere({0.0f, -100.5f, -2.0f}, 100.0f, greenishMatte) };
 
-	ImageGenerator generator(Config::SCREEN_SIZE, FOVrad, world);
+	ImageGenerator generator(Config::SCREEN_SIZE, world);
 	
 	if (generator.generateImage())
 	{

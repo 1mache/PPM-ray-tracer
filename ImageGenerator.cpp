@@ -1,8 +1,9 @@
 #include "ImageGenerator.h"
 
-ImageGenerator::ImageGenerator(const Dimensions& screenSize, float FOV, const HitableSet& world, 
-								const Vec3& camPosition, float viewportDist)
-	: m_screenSize(screenSize), m_world(world),
+ImageGenerator::ImageGenerator(const Dimensions& screenSize, const HitableSet& world, 
+								const Vec3& camPosition, float FOV, float viewportDist)
+	: m_screenSize(screenSize), 
+	  m_world(world),
 	  m_aspectRatio(float(m_screenSize.width) / float(m_screenSize.height)),
 	  m_camera(camPosition, FOV, viewportDist ,m_aspectRatio)
 
