@@ -36,6 +36,9 @@
     <ClCompile Include="Lambertian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Metal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
@@ -78,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Lambertian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Metal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AllMaterials.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

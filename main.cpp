@@ -1,18 +1,23 @@
 #include "ppmRT.h"
 #include "ImageGenerator.h"
-#include "Material.h"
-#include "Lambertian.h"
+#include "AllMaterials.h"
 
 int main(int argc, char* argv[])
 {
-	auto reddishAlbedo = Vec3(0.8, 0.3, 0.3);
-	auto greenishAlbedo = Vec3(0.5, 0.8, 0.5);
+	auto reddishAlbedo = Vec3(0.8f, 0.3f, 0.3f);
+	auto greenishAlbedo = Vec3(0.5f, 0.8f, 0.5f);
+	auto perfectAlbedo = Vec3(0.7f, 0.7f, 1.0f);
 
 	std::shared_ptr<Material> reddishMatte = std::make_shared<Lambertian>(reddishAlbedo);
 	std::shared_ptr<Material> greenishMatte = std::make_shared<Lambertian>(greenishAlbedo);
+	std::shared_ptr<Material> perfectMetal = std::make_shared<Metal>(perfectAlbedo);
 
-	HitableSet world = { new Sphere({ 0.0f,-0.5f,-2.0f }, 0.5f, reddishMatte) ,
-		new Sphere({0.0f, -100.5f, -2.0f}, 100.0f, greenishMatte) };
+	HitableSet world = { 
+		new Sphere({ 0.0f,0.0f,-2.0f }, 0.5f, reddishMatte),
+		new Sphere({-1.5f, 0.5f, -2.0f}, 1.0f, perfectMetal),
+		new Sphere({1.5f, 0.5f, -2.0f}, 1.0f, perfectMetal),
+		new Sphere({0.0f, -100.5f, -2.0f}, 100.0f, greenishMatte),
+	};
 
 	ImageGenerator generator(Config::SCREEN_SIZE, world);
 	

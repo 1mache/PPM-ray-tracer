@@ -45,19 +45,20 @@ Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
 
 Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 {
+	if (bounceCounter < MAX_RAY_BOUNCES)
+		return Vec3(0.0f, 0.0f, 0.0f);
+
 	HitRecord rec = {};
 	float reflectionAmount = 0.5f;
 	if (m_world.isHit(ray, T_INTERVAL, rec))
 	{
-		if(bounceCounter < MAX_RAY_BOUNCES)
-		{
-			Vec3 attenuation;
-			Ray scattered;
-			rec.material->scatter(ray, rec, attenuation, scattered);
+		Vec3 attenuation;
+		Ray scattered;
+		if(rec.material->scatter(ray, rec, attenuation, scattered))
 			return attenuation * 
-				   colorByRay(scattered, bounceCounter + 1);
-		}
-		return Vec3(0,0,0); // return black if the recursion depth is too big
+				colorByRay(scattered, bounceCounter + 1);
+			
+		return Vec3(0.0f, 0.0f, 0.0f); // return black if the material doesnt scatter.
 	}
 	
 	return bgPixelColor(ray);
