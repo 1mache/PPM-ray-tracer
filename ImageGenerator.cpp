@@ -45,7 +45,7 @@ Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
 
 Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 {
-	if (bounceCounter < MAX_RAY_BOUNCES)
+	if (bounceCounter >= MAX_RAY_BOUNCES)
 		return Vec3(0.0f, 0.0f, 0.0f);
 
 	HitRecord rec = {};

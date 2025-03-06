@@ -36,9 +36,13 @@ namespace Utils
 
     struct BGRQuad
     {
-        uint8_t b;
-        uint8_t g;
-        uint8_t r;
+        uint8_t b = 0;
+        uint8_t g = 0;
+        uint8_t r = 0;
+
+        BGRQuad() = default;
+        BGRQuad(uint8_t _b, uint8_t _g, uint8_t _r) : b(_b), g(_g), r(_r) {};
+    private:
         uint8_t reserved = 0; // so that every pixel is 4 bytes
     };
 
@@ -55,18 +59,16 @@ namespace Utils
         inline static std::uniform_real_distribution<float> m_distribution{ 0.0f, 1.0f };
 
     public:
+        RNG() = delete;
+
         static float random0to1()
         {
             return m_distribution(m_generator);
         };
 
-        static Vec3 randomVector(const Interval& elementInterval)
-        {
-            Vec3 result = { random0to1(), random0to1(), random0to1() };
-            // get result in the range of the given interval
-            result *= elementInterval.size();
-            result += Vec3(elementInterval.min(), elementInterval.min(), elementInterval.min());
-            return result;
-        };
+        static Vec3 randomVector(const Interval& elementInterval);
+
+        //generates a random vector inside the unit sphere
+        static Vec3 randomOnUnitSphere();
     };
 };
