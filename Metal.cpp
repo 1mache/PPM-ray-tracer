@@ -24,7 +24,8 @@ bool Metal::scatter(const Ray& rayIn, const HitRecord& rec, Vec3& out_attenuatio
 
 	if (scatterAngle <= MAX_CLEAR_ANGLE)
 		out_attenuation = m_albedo * 
-			std::min(1.0f, std::max((scatterAngle*2), MIN_ALBEDO_DARKENING));
+			std::min(1.0f, 
+				std::max( (scatterAngle*2), MAX_ALBEDO_DARKENING));
 
 	return true;
 }

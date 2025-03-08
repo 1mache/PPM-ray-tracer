@@ -5,12 +5,11 @@ class Material;
 
 struct HitRecord
 {
-	float t;
+	std::shared_ptr<Material> material;
 	Vec3 hitPoint;
 	Vec3 surfaceNormal;
+	float t;
 	bool frontFace; // whether the normal is pointing "out" of the object
-
-	std::shared_ptr<Material> material;
 };
 
 class IHitable

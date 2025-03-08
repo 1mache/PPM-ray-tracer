@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Dielectric.cpp" />
     <ClCompile Include="HitableSet.cpp" />
     <ClCompile Include="ImageGenerator.cpp" />
     <ClCompile Include="Lambertian.cpp" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="Dielectric.h" />
     <ClInclude Include="Dimensions.h" />
     <ClInclude Include="HitableSet.h" />
     <ClInclude Include="IHitable.h" />

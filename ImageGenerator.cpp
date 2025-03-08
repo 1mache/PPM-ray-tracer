@@ -66,7 +66,6 @@ Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 
 Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
 {
-	HitRecord rec = {};
 	Vec3 rgb = { 0,0,0 };
 
 	for (int i = 0; i < m_antialiasingPrecision - 1; i++)

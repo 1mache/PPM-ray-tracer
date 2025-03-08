@@ -9,16 +9,17 @@ int main(int argc, char* argv[])
 	auto purpleAlbedo =   Vec3(0.9f, 0.4f, 0.9f);
 	auto metalAlbedo =    Vec3(1.0f, 0.8f, 1.0f);
 
-	auto reddishMatte =  std::make_shared<Lambertian>(reddishAlbedo);
-	auto greenishMatte = std::make_shared<Lambertian>(greenishAlbedo);
-	auto purpleMatte =   std::make_shared<Lambertian>(purpleAlbedo);
-	auto fuzzyMetal =    std::make_shared<Metal>(metalAlbedo, 0.5f);
-	auto clearMetal =    std::make_shared<Metal>(metalAlbedo, 0.0f);
+	auto reddishMatte  =    std::make_shared<Lambertian>(reddishAlbedo);
+	auto greenishMatte =    std::make_shared<Lambertian>(greenishAlbedo);
+	auto purpleMatte   =    std::make_shared<Lambertian>(purpleAlbedo);
+	auto fuzzyMetal    =    std::make_shared<Metal>(metalAlbedo, 0.5f);
+	auto clearMetal    =    std::make_shared<Metal>(metalAlbedo, 0.0f);
+	auto glass		   =	std::make_shared<Dielectric>(1.5f);
 
 	HitableSet world = { 
 		new Sphere({  0.0f,    0.0f,  -2.0f },   0.5f, reddishMatte),
-		new Sphere({ -1.25f,   1.0f,  -2.0f },   0.25f, purpleMatte),
-		new Sphere({ -1.5f,    0.25f, -2.0f },   0.75f, fuzzyMetal),
+		new Sphere({  0.0f,    0.6f,  -1.8f },   0.25f, purpleMatte),
+		new Sphere({ -1.5f,    0.25f, -2.0f },   0.75f, glass),
 		new Sphere({  1.5f,    0.5f,  -2.0f },   1.0f, clearMetal),
 		new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte),
 	};
