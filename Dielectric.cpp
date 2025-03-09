@@ -52,12 +52,12 @@ bool Dielectric::scatter(const Ray& rayIn, const HitRecord& rec, Vec3& out_atten
     Vec3 refractedDirection = refract(rayIn.direction(), rec.surfaceNormal, refractionIndexRatio);
     out_scattered = Ray(rec.hitPoint, refractedDirection);
 
-    //// EDGE DARKENING - EXPEIMENTAL
-    //float hitAngle = dot(-rayIn.direction().normalized(), rec.surfaceNormal);
-    //if (hitAngle <= 0.4f)
-    //    out_attenuation *=
-    //        std::min(1.0f,
-    //            std::max((hitAngle * 2), 0.5f));
+    // EDGE DARKENING - EXPEIMENTAL
+    float hitAngle = dot(-rayIn.direction().normalized(), rec.surfaceNormal);
+    if (hitAngle <= 0.4f)
+        out_attenuation *=
+            std::min(1.0f,
+                std::max((hitAngle * 2), 0.5f));
 
     
     return true;
