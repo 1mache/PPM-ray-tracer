@@ -6,6 +6,7 @@ class Dielectric : public Material
 	float m_refractionIndex;
 
 	Vec3 refract(const Vec3& vIn, const Vec3& normal, float refractionIndexRatio) const;
+	bool shouldReflect(float cosTheta, float refractionIndex) const;
 public:
 	Dielectric(float refractionIndex) : m_refractionIndex(refractionIndex)
 	{}

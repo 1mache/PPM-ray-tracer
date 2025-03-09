@@ -15,11 +15,13 @@ int main(int argc, char* argv[])
 	auto fuzzyMetal    =    std::make_shared<Metal>(metalAlbedo, 0.5f);
 	auto clearMetal    =    std::make_shared<Metal>(metalAlbedo, 0.0f);
 	auto glass		   =	std::make_shared<Dielectric>(1.5f);
+	auto bubble        =	std::make_shared<Dielectric>(1.0f/1.5f);
 
 	HitableSet world = { 
 		new Sphere({  0.0f,    0.0f,  -2.0f },   0.5f, reddishMatte),
 		new Sphere({  0.0f,    0.6f,  -1.8f },   0.25f, purpleMatte),
-		new Sphere({ -1.5f,    0.25f, -2.0f },   0.75f, glass),
+		new Sphere({ -1.5f,    0.25f, -2.0f },   0.75f, glass), // outer glass sphere
+		new Sphere({ -1.5f,    0.25f, -2.0f },   0.65f, bubble), // hollow part of air
 		new Sphere({  1.5f,    0.5f,  -2.0f },   1.0f, clearMetal),
 		new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte),
 	};
