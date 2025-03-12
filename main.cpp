@@ -26,7 +26,12 @@ int main(int argc, char* argv[])
 		new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte),
 	};
 
-	ImageGenerator generator(Config::SCREEN_SIZE, world);
+    Camera camera = Camera(
+		{ -3.0f, 3.0f, -1.0f }, // position
+		{ 0.0f, 0.0f, -1.0f }, // direction
+		M_PI / 2 ); // vertical field of view		
+
+	ImageGenerator generator(Config::SCREEN_SIZE, world, camera);
 	
 	if (generator.generateImage())
 	{

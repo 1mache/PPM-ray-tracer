@@ -1,12 +1,11 @@
 #include "ImageGenerator.h"
 
-ImageGenerator::ImageGenerator(const Dimensions& screenSize, const HitableSet& world, 
-								const Vec3& camPosition, float FOV, float viewportDist)
+ImageGenerator::ImageGenerator (const Dimensions& screenSize, 
+								const HitableSet& world, 
+								const Camera& camera)
 	: m_screenSize(screenSize), 
 	  m_world(world),
-	  m_aspectRatio(float(m_screenSize.width) / float(m_screenSize.height)),
-	  m_camera(camPosition, FOV, viewportDist ,m_aspectRatio)
-
+	  m_camera(camera)
 {}
 
 void ImageGenerator::setPixels(std::ofstream& outputFile)

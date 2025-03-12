@@ -10,8 +10,8 @@ Vec3 Dielectric::refract(const Vec3& vIn, const Vec3& normal, float refractionIn
     Vec3 direction;
     // sin of refracted angle = rIR * sinTheta, (snelle`s law)
     // sin cannot be greater than 1. => sometimes refraction is impossible
-    bool canRefract = refractionIndexRatio* sinTheta > 1.0f;
-    if (canRefract || shouldReflect(cosTheta, refractionIndexRatio))
+    bool cannotRefract = refractionIndexRatio* sinTheta > 1.0f;
+    if (cannotRefract || shouldReflect(cosTheta, refractionIndexRatio))
         //Cant refract, need to reflect instead
         direction = (vIn -
             2.0f * vIn.projectionOnNormalized(normal));
@@ -34,9 +34,9 @@ bool Dielectric::shouldReflect(float cosTheta, float refractionIndex) const
     float r0 = (1.0f - refractionIndex) / (1.0f + refractionIndex);
     r0 *= r0; // squared
 
-    float coefficient = r0 + (1 - r0) * std::pow((1 - cosTheta),5);
+    float coefficient = r0 + (1 - r0) * std::pow((1 - cosTheta), 5);
     // randomly decide by the "probability"
-    return coefficient > Utils::RNG::random0to1(); 
+    return coefficient > Utils::RNG::random0to1();
 }
 
 bool Dielectric::scatter(const Ray& rayIn, const HitRecord& rec, Vec3& out_attenuation, Ray& out_scattered) const
@@ -51,14 +51,6 @@ bool Dielectric::scatter(const Ray& rayIn, const HitRecord& rec, Vec3& out_atten
 
     Vec3 refractedDirection = refract(rayIn.direction(), rec.surfaceNormal, refractionIndexRatio);
     out_scattered = Ray(rec.hitPoint, refractedDirection);
-
-    // EDGE DARKENING - EXPEIMENTAL
-    float hitAngle = dot(-rayIn.direction().normalized(), rec.surfaceNormal);
-    if (hitAngle <= 0.4f)
-        out_attenuation *=
-            std::min(1.0f,
-                std::max((hitAngle * 2), 0.5f));
-
     
     return true;
 }

@@ -17,10 +17,8 @@ class ImageGenerator
 	static constexpr Interval T_INTERVAL = { 0.001f, FLT_MAX };
 
 	const Dimensions m_screenSize;
-	// Wigth to Height ratio
-	float m_aspectRatio;
 	
-	const Camera m_camera;
+	const Camera& m_camera;
 
 	const uint8_t m_antialiasingPrecision = 10; // 0 to turn off
 
@@ -46,9 +44,7 @@ public:
 	explicit ImageGenerator(
 		const Dimensions& screenSize, 
 		const HitableSet& world,
-		const Vec3& camPosition = { 0,0,0 }, 
-		float FOV = M_PI/2,
-		float viewportDist = 1
+		const Camera& camera
 	);
 
 	bool generateImage();
