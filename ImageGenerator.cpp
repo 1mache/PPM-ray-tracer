@@ -5,24 +5,37 @@ ImageGenerator::ImageGenerator (const Dimensions& screenSize,
 								const Camera& camera)
 	: m_screenSize(screenSize), 
 	  m_world(world),
-	  m_camera(camera)
-{}
+	  m_camera(camera),
+	  m_image(screenSize.height, std::vector<Vec3>(screenSize.width))
+{
+	m_linesLeft = m_screenSize.height;
+}
 
 void ImageGenerator::setPixels(std::ofstream& outputFile)
 {
-	for (int y = 0; y < m_screenSize.height; y++)
+	for (Dimensions::dimension_t y = 0; y < m_screenSize.height; y++)
 	{
-		std::clog << "\rProcessing line number: " << y+1 << std::flush;
-		for (int x = 0; x < m_screenSize.width; x++)
-		{
-			Vec3 rgb = calcAvgColor(Dimensions(x,y));
-			rgb = gammaCorrection(rgb);
-			
-			writeRgbValue(outputFile, rgb);
-		}
+		ImageLine line = { m_image[y] , y};
+		processLine(line);
 	}
 
+	writeRgbValues(outputFile);
 	std::clog << std::endl;
+}
+
+void ImageGenerator::processLine(const ImageLine& line)
+{
+	std::clog << "Lines left: " << m_linesLeft << std::endl;
+
+	for (Dimensions::dimension_t x = 0; x < m_screenSize.width; x++)
+	{
+		Vec3 rgb = calcAvgColor(Dimensions(x, line.id));
+		rgb = gammaCorrection(rgb);
+		
+		line.pixelData[x] = rgb;
+	}
+	
+	m_linesLeft--;
 }
 
 Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
@@ -67,7 +80,7 @@ Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
 {
 	Vec3 rgb = { 0,0,0 };
 
-	for (int i = 0; i < m_antialiasingPrecision - 1; i++)
+	for (uint8_t i = 0; i < m_antialiasingPrecision - 1; i++)
 	{
 		rgb += calcColor(screenPoint ,true);
 	}
@@ -81,15 +94,23 @@ Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
 	return rgb;
 }
 
-void ImageGenerator::writeRgbValue(std::ofstream& outFile, const Vec3& rgb)
+void ImageGenerator::writeRgbValues(std::ofstream& outFile)
 {
-	const float rgbMax = float(Config::RGB_MAX);
-	// clamp the values between 255 and 0
-	int r = static_cast<int>(std::min(std::max(rgb.x() * rgbMax, 0.0f), rgbMax));
-	int g = static_cast<int>(std::min(std::max(rgb.y() * rgbMax, 0.0f), rgbMax));
-	int b = static_cast<int>(std::min(std::max(rgb.z() * rgbMax, 0.0f), rgbMax));
-	
-	outFile << r << ' ' << g << ' ' << b << std::endl;
+	std::clog << "Writing to PPM file ... " << std::endl;
+	for (auto line : m_image)
+	{
+		for (auto rgb : line)
+		{
+			const float rgbMax = float(Config::RGB_MAX);
+			// clamp the values between 255 and 0
+			int r = static_cast<int>(std::min(std::max(rgb.x() * rgbMax, 0.0f), rgbMax));
+			int g = static_cast<int>(std::min(std::max(rgb.y() * rgbMax, 0.0f), rgbMax));
+			int b = static_cast<int>(std::min(std::max(rgb.z() * rgbMax, 0.0f), rgbMax));
+
+			outFile << r << ' ' << g << ' ' << b << std::endl;
+		}
+	}
+	std::clog << "Done!" << std::endl;
 }
 
 Vec3 ImageGenerator::bgPixelColor(const Ray& ray)

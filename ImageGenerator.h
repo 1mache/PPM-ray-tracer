@@ -1,5 +1,6 @@
 #pragma once
 #include <fstream>
+#include <thread>
 #include "ppmRT.h"
 #include "Camera.h"
 #include "IHitable.h"
@@ -16,6 +17,16 @@ class ImageGenerator
 	static constexpr uint8_t MAX_RAY_BOUNCES = 25;
 	static constexpr Interval T_INTERVAL = { 0.001f, FLT_MAX };
 
+	using pixelLine = std::vector<Vec3>;
+	struct ImageLine
+	{
+		pixelLine& pixelData; // the data
+		Dimensions::dimension_t id; // the id of the line
+	};
+
+	std::vector<pixelLine> m_image;
+	Dimensions::dimension_t m_linesLeft;
+
 	const Dimensions m_screenSize;
 	
 	const Camera& m_camera;
@@ -25,6 +36,7 @@ class ImageGenerator
 	const HitableSet& m_world;
 
 	void setPixels(std::ofstream& outputFile);
+	void processLine(const ImageLine& line);
 	// returns color for the given pixel 
 	Vec3 calcColor(const Dimensions& screenPoint, bool randomize = false);
 	// returns color based on what the ray hit
@@ -37,7 +49,7 @@ class ImageGenerator
 		return { sqrtf(inputPixel.x()), sqrtf(inputPixel.y()), sqrtf(inputPixel.z()) };
 	}
 	// expects color values 0-1 and writes them as 0-255 to a file
-	void writeRgbValue(std::ofstream& outFile, const Vec3& rgb);
+	void writeRgbValues(std::ofstream& outFile);
 	Vec3 bgPixelColor(const Ray& ray);
 
 public:
