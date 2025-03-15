@@ -49,6 +49,24 @@ void ImageGenerator::processLine(const ImageLine& line)
 	std::clog << "Lines left: " << m_linesLeft << std::endl;
 }
 
+Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
+{
+	Vec3 rgb = { 0,0,0 };
+
+	for (uint8_t i = 0; i < m_antialiasingPrecision - 2; i++)
+	{
+		rgb += calcColor(screenPoint, true); // randomize origin of ray
+	}
+
+	// one time with no random in case there is no antialiasing
+	rgb += calcColor(screenPoint);
+
+	if (m_antialiasingPrecision > 0)
+		rgb /= m_antialiasingPrecision; // divide by number of simulations => get average
+
+	return rgb;
+}
+
 Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
 {
 	Vec3 viewportPoint = m_camera.screenToViewportPos(screenPoint);
@@ -85,24 +103,6 @@ Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 	}
 	
 	return bgPixelColor(ray);
-}
-
-Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
-{
-	Vec3 rgb = { 0,0,0 };
-
-	for (uint8_t i = 0; i < m_antialiasingPrecision - 1; i++)
-	{
-		rgb += calcColor(screenPoint ,true);
-	}
-
-	// one time with no random in case there is no antialiasing
-	rgb += calcColor(screenPoint);
-	
-	if(m_antialiasingPrecision > 0)
-		rgb /= m_antialiasingPrecision; // divide by number of simulations => get average
-	
-	return rgb;
 }
 
 void ImageGenerator::writeRgbValues(std::ofstream& outFile)

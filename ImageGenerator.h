@@ -21,6 +21,7 @@ class ImageGenerator
 
 	static constexpr uint8_t NUM_OF_THREADS = 8;
 
+	// contains rgb values 0 - 1
 	using pixelLine = std::vector<Vec3>;
 	struct ImageLine
 	{
@@ -30,33 +31,32 @@ class ImageGenerator
 	std::vector<pixelLine> m_image;
 
 	std::atomic<Dimensions::dimension_t> m_linesLeft;
-	std::mutex clog_mutex;
+	std::mutex clog_mutex; // mutex for std::clog
 
 	const Dimensions m_screenSize;
-	
 	const Camera& m_camera;
+	const HitableSet& m_world;
 
 	const uint8_t m_antialiasingPrecision = 10; // 0 to turn off
 
-	const HitableSet& m_world;
-
+	// write rgb values to m_image
 	void setPixels();
-	// function for threads .starting at line start, prcess every step-th line.
+	// function for threads. starting at line start, process every step-th line.
 	void processLines(Dimensions::dimension_t start, Dimensions::dimension_t step);
 	// processes a single line
 	void processLine(const ImageLine& line);
+	// same as calcColor but with antialiasing
+	Vec3 calcAvgColor(const Dimensions& screenPoint);
 	// returns color for the given pixel 
 	Vec3 calcColor(const Dimensions& screenPoint, bool randomize = false);
 	// returns color based on what the ray hit
 	Vec3 colorByRay(const Ray& ray, int bounceCounter = 0);
-	// same as calcColor but with antialiasing
-	Vec3 calcAvgColor(const Dimensions& screenPoint);
 	Vec3 gammaCorrection(const Vec3& inputPixel)
 	{
 		// raises input to the power of 1/2
 		return { sqrtf(inputPixel.x()), sqrtf(inputPixel.y()), sqrtf(inputPixel.z()) };
 	}
-	// expects color values 0-1 and writes them as 0-255 to a file
+	// takes color values 0-1 in m_image and writes them as 0-255 to a file
 	void writeRgbValues(std::ofstream& outFile);
 	Vec3 bgPixelColor(const Ray& ray);
 
