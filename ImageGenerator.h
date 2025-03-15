@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <thread>
+#include <atomic>
 #include <mutex>
 #include "ppmRT.h"
 #include "Camera.h"
@@ -18,16 +19,18 @@ class ImageGenerator
 	static constexpr uint8_t MAX_RAY_BOUNCES = 25;
 	static constexpr Interval T_INTERVAL = { 0.001f, FLT_MAX };
 
+	static constexpr uint8_t NUM_OF_THREADS = 8;
+
 	using pixelLine = std::vector<Vec3>;
 	struct ImageLine
 	{
-		pixelLine& pixelData; // the data
-		Dimensions::dimension_t id; // the id of the line
+		pixelLine& pixelData;
+		Dimensions::dimension_t id; 
 	};
-
 	std::vector<pixelLine> m_image;
-	Dimensions::dimension_t m_linesLeft;
-	std::mutex m_mutex;
+
+	std::atomic<Dimensions::dimension_t> m_linesLeft;
+	std::mutex clog_mutex;
 
 	const Dimensions m_screenSize;
 	
@@ -37,8 +40,10 @@ class ImageGenerator
 
 	const HitableSet& m_world;
 
-	void setPixels(std::ofstream& outputFile);
+	void setPixels();
+	// function for threads .starting at line start, prcess every step-th line.
 	void processLines(Dimensions::dimension_t start, Dimensions::dimension_t step);
+	// processes a single line
 	void processLine(const ImageLine& line);
 	// returns color for the given pixel 
 	Vec3 calcColor(const Dimensions& screenPoint, bool randomize = false);

@@ -11,27 +11,18 @@ ImageGenerator::ImageGenerator (const Dimensions& screenSize,
 	m_linesLeft = m_screenSize.height;
 }
 
-void ImageGenerator::setPixels(std::ofstream& outputFile)
+void ImageGenerator::setPixels()
 {
-	//for (Dimensions::dimension_t y = 0; y < m_screenSize.height; y++)
-	//{
-	//	ImageLine line = { m_image[y] , y };
-	//	std::clog << "Lines left: " << m_linesLeft << std::endl;
-	//	processLine(line);
-	//}
-
-	uint8_t numOfThreads = 8;
-	std::vector<std::thread> threads(numOfThreads);
-	for (uint8_t i = 0; i < numOfThreads; i++)
+	std::vector<std::thread> threads(NUM_OF_THREADS);
+	for (uint8_t i = 0; i < NUM_OF_THREADS; i++)
 	{
-		threads[i] = std::thread(&ImageGenerator::processLines, this, i, numOfThreads);
+		threads[i] = std::thread(&ImageGenerator::processLines, this, i, NUM_OF_THREADS);
 	}
+
 	for (auto& thread : threads)
 	{
 		thread.join();
 	}
-
-	writeRgbValues(outputFile);
 }
 
 void ImageGenerator::processLines(Dimensions::dimension_t start, Dimensions::dimension_t step)
@@ -53,8 +44,9 @@ void ImageGenerator::processLine(const ImageLine& line)
 		line.pixelData[x] = rgb;
 	}
 	
-	std::lock_guard lock(m_mutex);
 	m_linesLeft--;
+	std::lock_guard<std::mutex> clogLock(clog_mutex);
+	std::clog << "Lines left: " << m_linesLeft << std::endl;
 }
 
 Vec3 ImageGenerator::calcColor(const Dimensions& screenPoint, bool randomize)
@@ -157,7 +149,9 @@ bool ImageGenerator::generateImage()
 	outputFile << m_screenSize.width << ' ' << m_screenSize.height << std::endl;
 	outputFile << Config::RGB_MAX << std::endl;
 
-	setPixels(outputFile);
+	setPixels();
+	writeRgbValues(outputFile);
+
 	outputFile.close();
 	return true;
 }
