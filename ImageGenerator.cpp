@@ -13,20 +13,38 @@ ImageGenerator::ImageGenerator (const Dimensions& screenSize,
 
 void ImageGenerator::setPixels(std::ofstream& outputFile)
 {
-	for (Dimensions::dimension_t y = 0; y < m_screenSize.height; y++)
+	//for (Dimensions::dimension_t y = 0; y < m_screenSize.height; y++)
+	//{
+	//	ImageLine line = { m_image[y] , y };
+	//	std::clog << "Lines left: " << m_linesLeft << std::endl;
+	//	processLine(line);
+	//}
+
+	uint8_t numOfThreads = 8;
+	std::vector<std::thread> threads(numOfThreads);
+	for (uint8_t i = 0; i < numOfThreads; i++)
 	{
-		ImageLine line = { m_image[y] , y};
-		processLine(line);
+		threads[i] = std::thread(&ImageGenerator::processLines, this, i, numOfThreads);
+	}
+	for (auto& thread : threads)
+	{
+		thread.join();
 	}
 
 	writeRgbValues(outputFile);
-	std::clog << std::endl;
+}
+
+void ImageGenerator::processLines(Dimensions::dimension_t start, Dimensions::dimension_t step)
+{
+	for (Dimensions::dimension_t y = start; y < m_screenSize.height; y += step)
+	{
+		ImageLine line = { m_image[y] , y };
+		processLine(line);
+	}
 }
 
 void ImageGenerator::processLine(const ImageLine& line)
 {
-	std::clog << "Lines left: " << m_linesLeft << std::endl;
-
 	for (Dimensions::dimension_t x = 0; x < m_screenSize.width; x++)
 	{
 		Vec3 rgb = calcAvgColor(Dimensions(x, line.id));
@@ -35,6 +53,7 @@ void ImageGenerator::processLine(const ImageLine& line)
 		line.pixelData[x] = rgb;
 	}
 	
+	std::lock_guard lock(m_mutex);
 	m_linesLeft--;
 }
 

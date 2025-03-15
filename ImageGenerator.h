@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <thread>
+#include <mutex>
 #include "ppmRT.h"
 #include "Camera.h"
 #include "IHitable.h"
@@ -26,6 +27,7 @@ class ImageGenerator
 
 	std::vector<pixelLine> m_image;
 	Dimensions::dimension_t m_linesLeft;
+	std::mutex m_mutex;
 
 	const Dimensions m_screenSize;
 	
@@ -36,6 +38,7 @@ class ImageGenerator
 	const HitableSet& m_world;
 
 	void setPixels(std::ofstream& outputFile);
+	void processLines(Dimensions::dimension_t start, Dimensions::dimension_t step);
 	void processLine(const ImageLine& line);
 	// returns color for the given pixel 
 	Vec3 calcColor(const Dimensions& screenPoint, bool randomize = false);
