@@ -25,15 +25,15 @@ Vec3 Camera::screenToViewportPos(const Dimensions& pixelCords) const
 	// we need to flip here, (0,0) in screen cords is the top left corner and in our cords its the bottom left one
 	Dimensions flippedCords = Dimensions( pixelCords.width , Config::SCREEN_SIZE.height - pixelCords.height); 
 	
-	Vec3 viewport_v = m_viewportHeight * m_v;
-	Vec3 viewport_u = m_viewportWidth * m_u;
+	Vec3 viewportHorizontal = m_viewportHeight * m_v;
+	Vec3 viewportVertical   = m_viewportWidth * m_u;
 
 	// this is currently the viewports bottomLeft corner and not the pixel center
-	Vec3 bottomLeftPixel = -viewport_u / 2 
-							-viewport_v / 2 
-							-m_viewportDist*m_w;
+	Vec3 bottomLeftPixel =  -viewportVertical / 2 
+							-viewportHorizontal / 2 
+							-m_viewportDist * m_w;
 
-	bottomLeftPixel += 0.5f * m_pixelSize; // offset it to the center of the pixel
+	bottomLeftPixel += 0.5f * toViewportBasis(m_pixelSize); // offset it to the center of the pixel
 
 	// the desired pixel's offset *ratio*
 	Vec3 pixelOffset = Vec3((float(flippedCords.width) / (Config::SCREEN_SIZE.width - 1)),
@@ -42,5 +42,6 @@ Vec3 Camera::screenToViewportPos(const Dimensions& pixelCords) const
 
 	pixelOffset *= Vec3(m_viewportWidth, m_viewportHeight, 0.0f); // multiply it by viewport dimensions to get the offset
 
-	return bottomLeftPixel + m_u* pixelOffset.x() + m_v* pixelOffset.y();
+	// translate offset to our (m_u , m_v) basis and add the resulting offset to the bottom left corner
+	return bottomLeftPixel + toViewportBasis(pixelOffset);
 }

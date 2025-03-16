@@ -6,7 +6,7 @@ class Camera
 	// how far the viewport is from the camera (to the Z negative direction)
 	float m_viewportDist;
 	// the angle between the TOP and BOTTOM edges of the viewport
-	const float m_FOV; // (in radians)
+	float m_FOV; // (in radians)
 
 	Vec3 m_lookfrom;
 	Vec3 m_lookat;
@@ -20,6 +20,13 @@ class Camera
 	// viewport pixel size (z is 0) 
 	Vec3 m_pixelSize;
 
+private:
+	// translates a given vector from screen basis ({1,0}, {0,1}) to viewport basis (m_u, m_v),
+	Vec3 toViewportBasis(const Vec3& vec) const
+	{
+		// vec`s z cord is ignored, as vec represents vector in screen space
+		return m_u * vec.x() + m_v * vec.y();
+	}
 public:
 	Camera(const Vec3& position, const Vec3& lookat, float FOV);
 
