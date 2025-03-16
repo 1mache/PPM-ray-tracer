@@ -1,6 +1,6 @@
 #include "ppmRT.h"
 #include "ImageGenerator.h"
-#include "AllMaterials.h"
+#include "Materials.h"
 
 int main(int argc, char* argv[])
 {

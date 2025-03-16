@@ -33,13 +33,7 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lambertian.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Metal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Dielectric.cpp">
+    <ClCompile Include="Materials.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,19 +74,7 @@
     <ClInclude Include="ppmRT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Lambertian.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Metal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AllMaterials.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dielectric.h">
+    <ClInclude Include="Materials.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

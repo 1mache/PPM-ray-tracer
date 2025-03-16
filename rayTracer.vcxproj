@@ -131,28 +131,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Dielectric.cpp" />
     <ClCompile Include="HitableSet.cpp" />
     <ClCompile Include="ImageGenerator.cpp" />
-    <ClCompile Include="Lambertian.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Metal.cpp" />
+    <ClCompile Include="Materials.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
-    <ClInclude Include="Dielectric.h" />
     <ClInclude Include="Dimensions.h" />
     <ClInclude Include="HitableSet.h" />
     <ClInclude Include="IHitable.h" />
     <ClInclude Include="ImageGenerator.h" />
     <ClInclude Include="Interval.h" />
-    <ClInclude Include="Lambertian.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="AllMaterials.h" />
-    <ClInclude Include="Metal.h" />
+    <ClInclude Include="Materials.h" />
     <ClInclude Include="ppmRT.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Sphere.h" />
