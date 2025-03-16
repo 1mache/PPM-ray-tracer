@@ -18,8 +18,8 @@ class ImageGenerator
 	// how many ray bounces we allow
 	static constexpr uint8_t MAX_RAY_BOUNCES = 25;
 	static constexpr Interval T_INTERVAL = { 0.001f, FLT_MAX };
-
 	static constexpr uint8_t NUM_OF_THREADS = 8;
+	static constexpr uint8_t DEFAULT_AA_PRECISION = 10;
 
 	// contains rgb values 0 - 1
 	using pixelLine = std::vector<Vec3>;
@@ -28,6 +28,9 @@ class ImageGenerator
 		pixelLine& pixelData;
 		Dimensions::dimension_t id; 
 	};
+
+private:
+	// lines of rgb values
 	std::vector<pixelLine> m_image;
 
 	std::atomic<Dimensions::dimension_t> m_linesLeft;
@@ -37,8 +40,9 @@ class ImageGenerator
 	const Camera& m_camera;
 	const HitableSet& m_world;
 
-	const uint8_t m_antialiasingPrecision = 10; // 0 to turn off
+	const uint8_t m_antialiasingPrecision; // 0 to turn off
 
+private:
 	// write rgb values to m_image
 	void setPixels();
 	// function for threads. starting at line start, process every step-th line.
@@ -51,6 +55,7 @@ class ImageGenerator
 	Vec3 calcColor(const Dimensions& screenPoint, bool randomize = false);
 	// returns color based on what the ray hit
 	Vec3 colorByRay(const Ray& ray, int bounceCounter = 0);
+	
 	Vec3 gammaCorrection(const Vec3& inputPixel)
 	{
 		// raises input to the power of 1/2
@@ -62,9 +67,10 @@ class ImageGenerator
 
 public:
 	explicit ImageGenerator(
-		const Dimensions& screenSize, 
+		const Dimensions& screenSize,
 		const HitableSet& world,
-		const Camera& camera
+		const Camera& camera,
+		uint8_t antialiasingPrecision = DEFAULT_AA_PRECISION
 	);
 
 	bool generateImage();

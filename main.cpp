@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
     Camera camera = Camera(
 		{ 0.0f, 0.0f, 1.0f }, // position
 		{ 0.0f, 0.0f, -1.0f }, // direction
-		M_PI / 2 ); // vertical field of view		
+		M_PI / 1.5 ); // vertical field of view		
 
 	ImageGenerator generator(Config::SCREEN_SIZE, world, camera);
 	

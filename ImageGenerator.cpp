@@ -2,11 +2,13 @@
 
 ImageGenerator::ImageGenerator (const Dimensions& screenSize, 
 								const HitableSet& world, 
-								const Camera& camera)
+								const Camera& camera,
+								uint8_t antialiasingPrecision)
 	: m_screenSize(screenSize), 
 	  m_world(world),
 	  m_camera(camera),
-	  m_image(screenSize.height, std::vector<Vec3>(screenSize.width))
+	  m_antialiasingPrecision(antialiasingPrecision),
+	  m_image(screenSize.height, std::vector<Vec3>(screenSize.width)) // initialize a width x height image
 {
 	m_linesLeft = m_screenSize.height;
 }
@@ -52,7 +54,7 @@ void ImageGenerator::processLine(const ImageLine& line)
 Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
 {
 	Vec3 rgb = { 0,0,0 };
-
+	
 	for (uint8_t i = 0; i < m_antialiasingPrecision - 2; i++)
 	{
 		rgb += calcColor(screenPoint, true); // randomize origin of ray
