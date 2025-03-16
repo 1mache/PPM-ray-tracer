@@ -48,7 +48,7 @@ void ImageGenerator::processLine(const ImageLine& line)
 	
 	m_linesLeft--;
 	std::lock_guard<std::mutex> clogLock(clog_mutex);
-	std::clog << "Lines left: " << m_linesLeft << std::endl;
+	std::clog << "\rLines left: [" << std::setw(4) << m_linesLeft << ']' << std::flush;
 }
 
 Vec3 ImageGenerator::calcAvgColor(const Dimensions& screenPoint)
@@ -109,7 +109,7 @@ Vec3 ImageGenerator::colorByRay(const Ray& ray, int bounceCounter)
 
 void ImageGenerator::writeRgbValues(std::ofstream& outFile)
 {
-	std::clog << "Writing to PPM file ... " << std::endl;
+	std::clog << "\nWriting to PPM file ... " << std::endl;
 	for (auto line : m_image)
 	{
 		for (auto rgb : line)
