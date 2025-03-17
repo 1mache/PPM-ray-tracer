@@ -140,7 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Config.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Dimensions.h" />
     <ClInclude Include="HitableSet.h" />
     <ClInclude Include="IHitable.h" />

@@ -23,21 +23,22 @@ int main(int argc, char* argv[])
 		new Sphere({ -1.5f,    0.25f, -2.0f },   0.75f, glass), // outer glass sphere
 		new Sphere({ -1.5f,    0.25f, -2.0f },   0.65f, bubble), // hollow part of air
 		new Sphere({  1.5f,    0.5f,  -2.0f },   1.0f, fuzzyMetal),
-		new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte),
+		new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte) // ground,
 	};
 
     Camera camera = Camera(
+		Dimensions(800, 600), // screen size
 		{ 0.0f, 0.0f, 1.0f }, // position
 		{ 0.0f, 0.0f, -1.0f }, // direction
 		M_PI / 1.5 ); // vertical field of view		
 
-	ImageGenerator generator(Config::SCREEN_SIZE, world, camera);
+	ImageGenerator generator(world, camera);
 	
 	if (generator.generateImage())
 	{
 		std::cout << "Great success!\n";
 		std::cout << "Creating a .bmp file ... \n";
-		if (Utils::ppmToBmp(Config::PPM_OUTPUT_FILE_NAME, Config::BMP_OUTPUT_FILE_NAME))
+		if (Utils::ppmToBmp(Constants::PPM_OUTPUT_FILE_NAME, Constants::BMP_OUTPUT_FILE_NAME))
 		{
 			std::cout << "Great success!\n";
 		}

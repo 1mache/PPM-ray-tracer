@@ -4,14 +4,14 @@
 #include <random>
 #include <vector>
 #include "Vec3.h"
-#include "Config.h"
+#include "Constants.h"
 #include "Interval.h"
 
 namespace Utils
 {
 #pragma pack(push, 1) // we want no padding in the structs!
 
-    // info on headers: https://learn.microsoft.com/en-us/windows/win32/gdi/bitmap-storage
+    // info on bmp headers: https://learn.microsoft.com/en-us/windows/win32/gdi/bitmap-storage
     
     struct BMPHeader {
         const uint16_t signature = 0x4D42; // "BM" - fixed value
@@ -60,6 +60,7 @@ namespace Utils
 
     public:
         RNG() = delete;
+		RNG& operator=(const RNG&) = delete;
 
         static float random0to1()
         {

@@ -14,6 +14,7 @@ class ImageGenerator
 {
 	using RNG = Utils::RNG;
 
+	static constexpr uint8_t RGB_MAX = 255;
 	// color of the background
 	static constexpr Vec3 BG_COLOR_FULL = { 0.2f, 0.6f, 1.0f };
 	// how many ray bounces we allow
@@ -68,7 +69,6 @@ private:
 
 public:
 	explicit ImageGenerator(
-		const Dimensions& screenSize,
 		const HitableSet& world,
 		const Camera& camera,
 		uint8_t antialiasingPrecision = DEFAULT_AA_PRECISION

@@ -1,5 +1,5 @@
 #pragma once
-#include "Config.h"
+#include "Constants.h"
 #include "Vec3.h"
 
 // ray = origin + t*direction. 

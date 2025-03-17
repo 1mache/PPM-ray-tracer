@@ -3,15 +3,16 @@
 
 class Camera
 {
+	const Dimensions m_screenSize;
 	// how far the viewport is from the camera (to the Z negative direction)
 	float m_viewportDist;
 	// the angle between the TOP and BOTTOM edges of the viewport
 	float m_FOV; // (in radians)
 
-	Vec3 m_lookfrom;
-	Vec3 m_lookat;
+	Vec3 m_lookfrom; // camera position
+	Vec3 m_lookat; // what the camera is facing
 	static constexpr Vec3 V_UP = { 0,1,0 }; // absolute up direction, relative to camera
-	Vec3 m_u, m_v, m_w; // basis of the camera frame
+	Vec3 m_u, m_v, m_w; // basis of the viewport plane
 
 	// the width and height of the "window" we're looking at the world through
 	// calculated using FOV
@@ -28,13 +29,16 @@ private:
 		return m_u * vec.x() + m_v * vec.y();
 	}
 public:
-	Camera(const Vec3& position, const Vec3& lookat, float FOV);
+	explicit Camera(
+		   const Dimensions& screenSize,
+		   const Vec3& position,
+		   const Vec3& lookat,
+	 	   float FOV);
 
+	Dimensions screenSize() const { return m_screenSize; }
 	Vec3 position() const { return m_lookfrom; }
 	float viewportWidth() const { return m_viewportWidth; };
 	float viewportHeight() const { return m_viewportHeight; };
-	// returns the viewports z position
-	float viewportZ() const { return m_lookfrom.z() - m_viewportDist; }
 
 	// returns ray from camera to point in viewport
 	Ray getRay(const Vec3& viewportPoint) const

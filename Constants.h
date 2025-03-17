@@ -3,10 +3,8 @@
 #include "Dimensions.h"
 
 // general program configurations 
-namespace Config
+namespace Constants
 {
-	constexpr Dimensions SCREEN_SIZE = {800, 600};
-
 	constexpr const char* PPM_OUTPUT_FILE_NAME = "output.ppm";
 	constexpr const char* BMP_OUTPUT_FILE_NAME = "output.bmp";
 

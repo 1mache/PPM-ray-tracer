@@ -1,17 +1,15 @@
 #include "ImageGenerator.h"
 
-ImageGenerator::ImageGenerator (const Dimensions& screenSize, 
-								const HitableSet& world, 
+ImageGenerator::ImageGenerator (const HitableSet& world, 
 								const Camera& camera,
 								uint8_t antialiasingPrecision)
-	: m_screenSize(screenSize), 
+	: m_screenSize(camera.screenSize()), 
 	  m_world(world),
 	  m_camera(camera),
 	  m_antialiasingPrecision(antialiasingPrecision),
-	  m_image(screenSize.height, std::vector<Vec3>(screenSize.width)) // initialize a width x height image
-{
-	m_linesLeft = m_screenSize.height;
-}
+	  m_image(m_screenSize.height, std::vector<Vec3>(m_screenSize.width)), // initialize a width x height image
+	  m_linesLeft(m_screenSize.height)
+{}
 
 void ImageGenerator::setPixels()
 {
@@ -114,7 +112,7 @@ void ImageGenerator::writeRgbValues(std::ofstream& outFile)
 	{
 		for (auto rgb : line)
 		{
-			const float rgbMax = float(Config::RGB_MAX);
+			const float rgbMax = float(Constants::RGB_MAX);
 			// clamp the values between 255 and 0
 			int r = static_cast<int>(std::min(std::max(rgb.x() * rgbMax, 0.0f), rgbMax));
 			int g = static_cast<int>(std::min(std::max(rgb.y() * rgbMax, 0.0f), rgbMax));
@@ -139,7 +137,7 @@ Vec3 ImageGenerator::bgPixelColor(const Ray& ray)
 
 bool ImageGenerator::generateImage()
 {
-	std::ofstream outputFile(Config::PPM_OUTPUT_FILE_NAME);
+	std::ofstream outputFile(Constants::PPM_OUTPUT_FILE_NAME);
 	if (!outputFile.is_open())
 	{
 		std::cout << "Something went wrong! Couldn`t open file" << std::endl;
@@ -147,9 +145,9 @@ bool ImageGenerator::generateImage()
 	}
 	
 	// .ppm file specifications:
-	outputFile << Config::PPM_FORMAT << std::endl;
+	outputFile << Constants::PPM_FORMAT << std::endl;
 	outputFile << m_screenSize.width << ' ' << m_screenSize.height << std::endl;
-	outputFile << Config::RGB_MAX << std::endl;
+	outputFile << Constants::RGB_MAX << std::endl;
 
 	setPixels();
 	writeRgbValues(outputFile);

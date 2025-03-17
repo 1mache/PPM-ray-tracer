@@ -18,7 +18,7 @@ namespace Utils
             return false;
         }
 
-        if (format != Config::PPM_FORMAT)
+        if (format != Constants::PPM_FORMAT)
         {
             std::cout << "Error: Wrong file format, should be P3!\n";
             return false;
@@ -32,9 +32,9 @@ namespace Utils
             return false;
         }
 
-        if (maxColor != Config::RGB_MAX)
+        if (maxColor != Constants::RGB_MAX)
         {
-            std::cout << "Error: Wrong max color, should be:" << Config::RGB_MAX << "\n";
+            std::cout << "Error: Wrong max color, should be:" << Constants::RGB_MAX << "\n";
             return false;
         }
 
