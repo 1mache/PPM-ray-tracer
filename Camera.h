@@ -35,7 +35,6 @@ public:
 		   const Vec3& lookat,
 	 	   float FOV);
 
-	Dimensions screenSize() const { return m_screenSize; }
 	Vec3 position() const { return m_lookfrom; }
 	float viewportWidth() const { return m_viewportWidth; };
 	float viewportHeight() const { return m_viewportHeight; };

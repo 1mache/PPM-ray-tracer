@@ -26,13 +26,14 @@ int main(int argc, char* argv[])
 		new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte) // ground,
 	};
 
+	auto screenDimensions = Dimensions(800, 600);
     Camera camera = Camera(
-		Dimensions(800, 600), // screen size
+		screenDimensions,
 		{ 0.0f, 0.0f, 1.0f }, // position
 		{ 0.0f, 0.0f, -1.0f }, // direction
 		M_PI / 1.5 ); // vertical field of view		
 
-	ImageGenerator generator(world, camera);
+	ImageGenerator generator(screenDimensions ,world, camera);
 	
 	if (generator.generateImage())
 	{

@@ -69,6 +69,7 @@ private:
 
 public:
 	explicit ImageGenerator(
+		const Dimensions& screenSize,
 		const HitableSet& world,
 		const Camera& camera,
 		uint8_t antialiasingPrecision = DEFAULT_AA_PRECISION

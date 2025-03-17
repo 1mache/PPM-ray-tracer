@@ -1,14 +1,15 @@
 #include "ImageGenerator.h"
 
-ImageGenerator::ImageGenerator (const HitableSet& world, 
+ImageGenerator::ImageGenerator( const Dimensions& screenSize,
+								const HitableSet& world, 
 								const Camera& camera,
 								uint8_t antialiasingPrecision)
-	: m_screenSize(camera.screenSize()), 
+	: m_screenSize(screenSize), 
 	  m_world(world),
 	  m_camera(camera),
 	  m_antialiasingPrecision(antialiasingPrecision),
-	  m_image(m_screenSize.height, std::vector<Vec3>(m_screenSize.width)), // initialize a width x height image
-	  m_linesLeft(m_screenSize.height)
+	  m_image(screenSize.height, std::vector<Vec3>(screenSize.width)), // initialize a width x height image
+	  m_linesLeft(screenSize.height)
 {}
 
 void ImageGenerator::setPixels()
