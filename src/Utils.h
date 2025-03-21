@@ -69,10 +69,15 @@ namespace Utils
         RNG() = delete;
 		RNG& operator=(const RNG&) = delete;
 
-        static float random0to1()
+        inline static float random0to1()
         {
             return m_distribution(m_generator);
-        };
+        }
+
+        inline static float randomInRange(const Interval& range)
+        {
+            return random0to1() * range.size() + range.min();
+        }
 
         static Vec3 randomVector(const Interval& elementInterval);
 

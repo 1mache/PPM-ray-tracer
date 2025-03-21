@@ -8,6 +8,7 @@ class HitableSet: public IHitable
 public:
 	explicit HitableSet(size_t size = 0) : m_hitables(size) {}
 	HitableSet(std::initializer_list<IHitable*> objects): m_hitables(objects) {}
+	HitableSet(std::vector<IHitable*>&& objects) : m_hitables(std::move(objects)) {}
 
 	HitableSet(const HitableSet&) = delete;
 	HitableSet& operator=(const HitableSet&) = delete;

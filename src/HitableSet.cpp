@@ -14,7 +14,12 @@ bool HitableSet::isHit(const Ray& ray, Interval tInterval, HitRecord& out_record
 	// iterate over our objects and check if we hit any 
 	for (auto* hitable : m_hitables)
 	{
-		if (hitable->isHit(ray, {tInterval.min(), tClosestSoFar}, out_record))
+		if(!hitable)
+		{
+			//should never happen
+			std::clog << "Null hitable!" << std::endl;
+		}
+		else if (hitable->isHit(ray, {tInterval.min(), tClosestSoFar}, out_record))
 		{
 			hitSomething = true;
 			// we are looking for the closest thing we hit, thats why we
