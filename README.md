@@ -4,7 +4,7 @@ The output can be seen in the bin/ folder next to the .exe.
 
 ## Acknowledgements
  - [RayTracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry)\
-The project was made using this wonderful book as a guide, though, of course, some changes were made.
+The project was made using this wonderful book as a guide, though, of course, changes were made.
  - [Premake5](https://github.com/premake/premake-core)\
 I put the premake exe file for windows in **premake/** for convenience. [Here](https://premake.github.io/download) you can download premake for other OS's.
 
@@ -14,9 +14,9 @@ Build the project by running:
 ```bash
   premake/premake5.exe vs2022
 ```
-(if you're using VisualStudio2022)\
-Or by executing build.bat (on Windows).\
-This will create VisualStudio2022 project files inside the main folder.
+(if you're using *VisualStudio2022*)\
+Or by executing `build.bat` (on Windows).\
+This will create VisualStudio2022 project files inside DonkeyKong/ folder.
 
 This was tested on Windows, but in theory you should be able to build the project files for your specified editor if premake supports it.
 
