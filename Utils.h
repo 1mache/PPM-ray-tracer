@@ -1,5 +1,6 @@
 #pragma once
 #include <fstream>
+#include <filesystem>
 #include <iostream>
 #include <random>
 #include <vector>
@@ -49,6 +50,12 @@ namespace Utils
 #pragma pack(pop) // restore allignment
 
     bool ppmToBmp(const std::string& ppmFileName, const std::string& bmpFileName);
+
+    // gets the path to dir where the executable sits 
+    inline std::filesystem::path getExePath()
+    {
+        return std::filesystem::path(__argv[0]).parent_path();
+    }
 
     class RNG
     {

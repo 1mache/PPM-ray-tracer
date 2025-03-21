@@ -39,7 +39,10 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "Great success!\n";
 		std::cout << "Creating a .bmp file ... \n";
-		if (Utils::ppmToBmp(Constants::PPM_OUTPUT_FILE_NAME, Constants::BMP_OUTPUT_FILE_NAME))
+		if (Utils::ppmToBmp(
+				(Utils::getExePath() / Constants::PPM_OUTPUT_FILE_NAME).string(),
+				(Utils::getExePath() / Constants::BMP_OUTPUT_FILE_NAME).string())
+			)
 		{
 			std::cout << "Great success!\n";
 		}
