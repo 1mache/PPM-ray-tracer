@@ -4,8 +4,7 @@ The output can be seen in the bin/ folder next to the .exe.
 
 ## Acknowledgements
  - [RayTracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry)\
-The project was made using this wonderful book as a guide, and even tho I made some changes and added multithreading for faster processing,
- the math/physics part of the rayTracing process was taken from the book.
+The project was made using this wonderful book as a guide, though, of course, some changes were made.
  - [Premake5](https://github.com/premake/premake-core)\
 I put the premake exe file for windows in **premake/** for convenience. [Here](https://premake.github.io/download) you can download premake for other OS's.
 
