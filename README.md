@@ -21,5 +21,5 @@ This will create VisualStudio2022 project files inside the main folder.
 This was tested on Windows, but in theory you should be able to build the project files for your specified editor if premake supports it.
 
 ## If you want to play with it
-The main.cpp file contains an example on how to spawn spheres and materials for them. \ 
+The main.cpp file contains an example on how to spawn spheres and materials for them.\
 You can also change the image dimensions, FOV, lookat vector of the camera or its position vector by passing relevant arguments to ImageGenerator constructor.
