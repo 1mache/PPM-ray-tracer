@@ -1,6 +1,6 @@
 workspace "PPMRayTracer"
 	configurations { "Debug", "Release" }
-	platforms { "Win64" }  --only been tested on that
+	platforms { "Win32","Win64" }  
 
 project "RayTracer"
 	kind "ConsoleApp"
