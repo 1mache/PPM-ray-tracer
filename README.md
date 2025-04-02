@@ -33,12 +33,12 @@ it will apear reddish, if it reflects red and blue the same amount it will appea
 #### Metal objects
 Metal also has an albedo, there are metals in different colors so it makes sense. The difference between them and matte objects is that\
 they are better at reflecting. The Metal class has a fuzziness member which allows you to make metals that are well ... fuzzy,\
-or perfect mirrors.
+or perfect mirrors.\
 ![Metal](https://github.com/1mache/PPM-ray-tracer/blob/main/images/metal.bmp)
 
 #### Dielectrics
 Transparent materials that let light true but refract it in an angle defined by material specific ratio called the [refractive index](https://en.wikipedia.org/wiki/Refractive_index).\
-The examples for them would be glass or water.
+The examples for them would be glass or water.\
 ![Dielectric](https://github.com/1mache/PPM-ray-tracer/blob/main/images/dielectric.bmp)
 
 - The camera class has a few members that let us toggle how we look at the world, like position, direction that we look in, and FOV.
