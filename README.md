@@ -43,7 +43,7 @@ The examples for them would be glass or water.\
 
 - The camera class has a few members that let us toggle how we look at the world, like position, direction that we look in, and FOV.
 - The processing is threaded. It is set to run on 8 threads by default. Each thread processes `image_height / 8` lines of pixels.\
-They do it in an efficient fashion, first thread does line 0, 8, 16,... second thread does 1, 9, 17,... this allows for efficient\
+They do it in an efficient fashion, first thread does line 0, 8, 16,... second thread does 1, 9, 17,... this allows for efficient
 processing even when there are clusters of objects at a certain level of the image. 
 - Image format: in the [book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry) Peter Shirley suggests creating
 an image in the [.ppm format](https://en.wikipedia.org/wiki/Netpbm#File_formats) and thats how I started as well.\
