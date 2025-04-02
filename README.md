@@ -13,7 +13,7 @@ I put the premake exe file for windows in **premake/** for convenience. [Here](h
 
 The goal of the project was to get a feel of graphics and rendering in their simplest form, a static image.\
 Onto this image we render objects from the three dimesional world that we describe in the code by using a technique called ✨*Ray Tracing*✨.\
-The best explanation is in the book that I linked, but to put it really simply, it involves taking having a ray, sort of like a ray of light shot from a pixel on the screen
+The best explanation is in the book that I linked, but to put it really simply, it involves having a ray, sort of like a ray of light shot from a pixel on the screen
 into the world we render and asking "what did you hit?", "did that thing reflect you? did you pass through it?", "what color was it?".\
 The project ended up taking way more than a weekend, since it involves quite a bit of math and physics formulas which I tried to understand instead of using them blindly.\
 I feel like it gave me an a perspective into the world of graphics programming, and fueled my passion for the subject.\
