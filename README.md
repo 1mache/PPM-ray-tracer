@@ -1,7 +1,7 @@
 # PPM-ray-tracer
 Simple ray tracer that runs on the CPU and outputs to a .ppm and .bmp file.\
 The output can be seen in the bin/ folder next to the .exe.\
-![Screenshot](https://github.com/1mache/PPM-ray-tracer/images/random1.bmp)
+![Screenshot](https://github.com/1mache/PPM-ray-tracer/blob/main/images/random1.bmp)
 
 ## Acknowledgements
  - [RayTracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry)\
