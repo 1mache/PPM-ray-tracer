@@ -16,15 +16,35 @@ int main(int argc, char* argv[])
 	auto clearMetal    =    std::make_shared<Metal>(metalAlbedo, 0.0f);
 	auto glass		   =	std::make_shared<Dielectric>(1.5f);
 	auto bubble        =	std::make_shared<Dielectric>(1.0f/1.5f);
+	
+	std::vector<std::shared_ptr<Material>> materials =
+		{ reddishMatte, greenishMatte, purpleMatte, fuzzyMetal, clearMetal, glass };
+	
+	using rng = Utils::RNG;
+	Interval posInterval(-5.0f, 5.0f);
+	Interval radiusInerval(0.1f, 0.5f);
+	std::vector<IHitable*> spheres(51);
+	size_t materialIndex = 0;
 
-	HitableSet world = { 
-		new Sphere({  0.0f,    0.0f,  -2.0f },   0.5f, reddishMatte),
-		new Sphere({  0.0f,    0.6f,  -1.8f },   0.25f, purpleMatte),
-		new Sphere({ -1.5f,    0.25f, -2.0f },   0.75f, glass), // outer glass sphere
-		new Sphere({ -1.5f,    0.25f, -2.0f },   0.65f, bubble), // hollow part of air
-		new Sphere({  1.5f,    0.5f,  -2.0f },   1.0f, fuzzyMetal),
-		new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte) // ground,
-	};
+	for(int i = 0; i < 50; i++)
+	{
+		float radius = rng::randomInRange(radiusInerval);
+		Vec3 position = { rng::randomInRange(posInterval), radius - 0.5f , rng::randomInRange(posInterval)};
+
+		spheres[i] = new Sphere(position, radius, materials[materialIndex]);
+		materialIndex = (materialIndex + 1) % materials.size();
+	}
+	spheres[50] = new Sphere({ 0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte); // ground
+	HitableSet world(std::move(spheres));
+
+	//HitableSet world = { 
+	//	new Sphere({  0.0f,    0.0f,  -2.0f },   0.5f, reddishMatte),
+	//	new Sphere({  0.0f,    0.6f,  -1.8f },   0.25f, purpleMatte),
+	//	new Sphere({ -1.5f,    0.25f, -2.0f },   0.75f, glass), // outer glass sphere
+	//	new Sphere({ -1.5f,    0.25f, -2.0f },   0.65f, bubble), // hollow part of air
+	//	new Sphere({  1.5f,    0.5f,  -2.0f },   1.0f, fuzzyMetal),
+	//	new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte) // ground,
+	//};
 
 	auto screenDimensions = Dimensions(800, 600);
     Camera camera = Camera(

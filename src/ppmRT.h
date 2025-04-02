@@ -14,3 +14,4 @@
 #include "Interval.h"
 #include "Vec3.h"
 #include "Ray.h"
+#include "RNG.h"

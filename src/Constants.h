@@ -8,6 +8,8 @@ namespace Constants
 	constexpr const char* PPM_OUTPUT_FILE_NAME = "output.ppm";
 	constexpr const char* BMP_OUTPUT_FILE_NAME = "output.bmp";
 
+	constexpr float GLASS_REFRACTION = 1.52f;
+
 	// ==================DONT TOUCH==================
 	// Max rgb value
 	constexpr int RGB_MAX = 255;
