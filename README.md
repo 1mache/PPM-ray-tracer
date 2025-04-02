@@ -42,6 +42,9 @@ The examples for them would be glass or water.
 ![Dielectric](https://github.com/1mache/PPM-ray-tracer/blob/main/images/dielectric.bmp)
 
 - The camera class has a few members that let us toggle how we look at the world, like position, direction that we look in, and FOV.
+- The processing is threaded. It is set to run on 8 threads by default. Each thread processes `image_height / 8` lines of pixels.\
+They do it in an efficient fashion, first thread does line 0, 8, 16,... second thread does 1, 9, 17,... this allows for efficient\
+processing even when there are clusters of objects at a certain level of the image. 
 - Image format: in the [book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry) Peter Shirley suggests creating
 an image in the [.ppm format](https://en.wikipedia.org/wiki/Netpbm#File_formats) and thats how I started as well.\
 In a nutshell a *ppm* is a text file where each line represents a pixel in the RGB format, you can look at it in the `images` folder.\
@@ -61,6 +64,9 @@ This will create VisualStudio2022 project files inside DonkeyKong/ folder.
 
 This was tested on Windows, but in theory you should be able to build the project files for your specified editor if premake supports it.
 
-## If you want to play with it
+## Testing it
+
 The main.cpp file contains an example on how to spawn spheres and materials for them.\
 You can also change the image dimensions, FOV, lookat vector of the camera or its position vector by passing relevant arguments to ImageGenerator constructor.
+The main as it is right now should output this image:
+![main](https://github.com/1mache/PPM-ray-tracer/blob/main/images/mainOutput.bmp)
