@@ -1,5 +1,5 @@
 # PPM-ray-tracer
-#### A simple ray tracing program that runs on the CPU and outputs to a .ppm and .bmp file.\
+#### A simple ray tracing program that runs on the CPU and outputs to a .ppm and .bmp file.
 
 ![Screenshot](https://github.com/1mache/PPM-ray-tracer/blob/main/images/random1.bmp)
 
@@ -19,13 +19,30 @@ The project ended up taking way more than a weekend, since it involves quite a b
 I feel like it gave me my first glimpse into the world of graphics programming, and fueled my passion for the subject.\
 I will definitely continue to explore it further and come back with even more exciting projects.
 
-## The Specifics
+## In more detail
+
 - There is no dependencies in the project, it writes raw pixel data into binary/text files.
 - The only object in the world is a sphere since, of all 3D objects spheres have the simplest mathematical formula for checking intersection.\
 - There are 3 Materials:
 #### Matte objects (Lambertian)
-Matte 
--Image format: in the [book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry) Peter Shirley suggests creating
+Matte objects reflect the ray in a random direction (in a certain range) and add a can reflect some colors more than others,\
+this is also true for the Metal material and it's called the *albedo*. If a sphere reflects the red component more than other ones,\
+it will apear reddish, if it reflects red and blue the same amount it will appear purplish etc.
+![Matte](https://github.com/1mache/PPM-ray-tracer/blob/main/images/matte.bmp)
+
+#### Metal objects
+Metal also has an albedo, there are metals in different colors so it makes sense. The difference between them and matte objects is that\
+they are better at reflecting. The Metal class has a fuzziness member which allows you to make metals that are well ... fuzzy,\
+or perfect mirrors.
+![Metal](https://github.com/1mache/PPM-ray-tracer/blob/main/images/metal.bmp)
+
+#### Dielectrics
+Transparent materials that let light true but refract it in an angle defined by material specific ratio called the [refractive index](https://en.wikipedia.org/wiki/Refractive_index).\
+The examples for them would be glass or water.
+![Dielectric](https://github.com/1mache/PPM-ray-tracer/blob/main/images/dielectric.bmp)
+
+- The camera class has a few members that let us toggle how we look at the world, like position, direction that we look in, and FOV.
+- Image format: in the [book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry) Peter Shirley suggests creating
 an image in the [.ppm format](https://en.wikipedia.org/wiki/Netpbm#File_formats) and thats how I started as well.\
 In a nutshell a *ppm* is a text file where each line represents a pixel in the RGB format, you can look at it in the `images` folder.\
 Needless to say they weigh a lot since no compression at all is involved, but the bigger problem was that Windows` photo viewer doesn't recognize them as images\
