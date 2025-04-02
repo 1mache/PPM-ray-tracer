@@ -17,8 +17,6 @@ The best explanation is in the book that I linked, but to put it really simply, 
 into the world we render and asking "what did you hit?", "did that thing reflect you?", \
 "did you pass through it?", "what color was it?".\
 The project ended up taking way more than a weekend, since it involves quite a bit of math and physics formulas which I tried to understand instead of using them blindly.\
-I feel like it gave me my first glimpse into the world of graphics programming, and fueled my passion for the subject.\
-I will definitely continue to explore it further and come back with even more exciting projects.
 
 ## In more detail
 
