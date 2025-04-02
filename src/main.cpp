@@ -1,6 +1,7 @@
 #include "ppmRT.h"
 #include "ImageGenerator.h"
 #include "Materials.h"
+#include "SphereSpawner.h"
 
 int main(int argc, char* argv[])
 {
@@ -9,15 +10,13 @@ int main(int argc, char* argv[])
 	
 	using rng = Utils::RNG;
 	Interval posInterval(-5.0f, 5.0f);
-	Interval radiusInerval(0.1f, 0.5f);
+	Interval radiusInterval(0.1f, 0.5f);
 	std::vector<IHitable*> spheres(51);
+	SphereSpawner spawner;
 
 	for(int i = 0; i < 50; i++)
 	{
-		float radius = rng::randomInRange(radiusInerval);
-		Vec3 position = { rng::randomInRange(posInterval), radius - 0.5f , rng::randomInRange(posInterval)};
-
-		spheres[i] = new Sphere(position, radius, rng::randomMaterial());
+		spheres[i] = spawner.spawnRandomSphere(posInterval, radiusInterval);
 	}
 
 	spheres[50] = new Sphere({ 0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte); // ground
