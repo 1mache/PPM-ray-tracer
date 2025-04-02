@@ -4,47 +4,24 @@
 
 int main(int argc, char* argv[])
 {
-	auto reddishAlbedo =  Vec3(0.8f, 0.3f, 0.3f);
 	auto greenishAlbedo = Vec3(0.5f, 0.7f, 0.2f);
-	auto purpleAlbedo =   Vec3(0.9f, 0.4f, 0.9f);
-	auto metalAlbedo =    Vec3(1.0f, 0.8f, 1.0f);
-
-	auto reddishMatte  =    std::make_shared<Lambertian>(reddishAlbedo);
-	auto greenishMatte =    std::make_shared<Lambertian>(greenishAlbedo);
-	auto purpleMatte   =    std::make_shared<Lambertian>(purpleAlbedo);
-	auto fuzzyMetal    =    std::make_shared<Metal>(metalAlbedo, 0.5f);
-	auto clearMetal    =    std::make_shared<Metal>(metalAlbedo, 0.0f);
-	auto glass		   =	std::make_shared<Dielectric>(1.5f);
-	auto bubble        =	std::make_shared<Dielectric>(1.0f/1.5f);
-	
-	std::vector<std::shared_ptr<Material>> materials =
-		{ reddishMatte, greenishMatte, purpleMatte, fuzzyMetal, clearMetal, glass };
+	auto greenishMatte = std::make_shared<Lambertian>(greenishAlbedo);
 	
 	using rng = Utils::RNG;
 	Interval posInterval(-5.0f, 5.0f);
 	Interval radiusInerval(0.1f, 0.5f);
 	std::vector<IHitable*> spheres(51);
-	size_t materialIndex = 0;
 
 	for(int i = 0; i < 50; i++)
 	{
 		float radius = rng::randomInRange(radiusInerval);
 		Vec3 position = { rng::randomInRange(posInterval), radius - 0.5f , rng::randomInRange(posInterval)};
 
-		spheres[i] = new Sphere(position, radius, materials[materialIndex]);
-		materialIndex = (materialIndex + 1) % materials.size();
+		spheres[i] = new Sphere(position, radius, rng::randomMaterial());
 	}
+
 	spheres[50] = new Sphere({ 0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte); // ground
 	HitableSet world(std::move(spheres));
-
-	//HitableSet world = { 
-	//	new Sphere({  0.0f,    0.0f,  -2.0f },   0.5f, reddishMatte),
-	//	new Sphere({  0.0f,    0.6f,  -1.8f },   0.25f, purpleMatte),
-	//	new Sphere({ -1.5f,    0.25f, -2.0f },   0.75f, glass), // outer glass sphere
-	//	new Sphere({ -1.5f,    0.25f, -2.0f },   0.65f, bubble), // hollow part of air
-	//	new Sphere({  1.5f,    0.5f,  -2.0f },   1.0f, fuzzyMetal),
-	//	new Sphere({  0.0f, -100.5f,  -2.0f }, 100.0f, greenishMatte) // ground,
-	//};
 
 	auto screenDimensions = Dimensions(800, 600);
     Camera camera = Camera(
