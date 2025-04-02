@@ -1,15 +1,7 @@
 #pragma once
 #include <random>
-#include <functional>
 #include "Vec3.h"
 #include "Interval.h"
-#include "Constants.h"
-
-// Forward declaration
-class Material;
-class Lambertian;
-class Metal;
-class Dielectric;
 
 namespace Utils 
 {
@@ -39,8 +31,5 @@ namespace Utils
 
         //generates a random vector inside the unit sphere
         static Vec3 randomOnUnitSphere();
-
-        // generates a random material (both in kind and in properties)
-        static std::shared_ptr<Material> randomMaterial();
     };
 }
