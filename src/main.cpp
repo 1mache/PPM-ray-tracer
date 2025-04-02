@@ -4,7 +4,6 @@
 
 int main(int argc, char* argv[])
 {
-	auto reddishAlbedo =  Vec3(0.8f, 0.3f, 0.3f);
 	auto greenishAlbedo = Vec3(0.5f, 0.7f, 0.2f);
 	auto purpleAlbedo =   Vec3(0.9f, 0.4f, 0.9f);
 	auto metalAlbedo =    Vec3(1.0f, 0.8f, 1.0f);
