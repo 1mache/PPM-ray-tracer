@@ -1,4 +1,4 @@
-# PPM-ray-tracer
+# 🔮 PPM-ray-tracer 🔮
 #### A simple ray tracing program that runs on the CPU and outputs to a .ppm and .bmp file.
 
 ![Screenshot](https://github.com/1mache/PPM-ray-tracer/blob/main/images/random1.bmp)
