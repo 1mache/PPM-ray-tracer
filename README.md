@@ -16,7 +16,7 @@ Onto this image we render objects from the three dimesional world that we descri
 The best explanation is in the book that I linked, but to put it really simply, it involves having a ray, sort of like a ray of light, shot from a pixel on the screen
 into the world we render and asking "what did you hit?", "did that thing reflect you?", \
 "did you pass through it?", "what color was it?".\
-The project ended up taking way more than a weekend, since it involves quite a bit of math and physics formulas which I tried to understand instead of using them blindly.\
+The project ended up taking way more than a weekend, since it involves quite a bit of math and physics formulas which I tried to understand instead of using them blindly.
 
 ## In more detail
 
