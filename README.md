@@ -1,6 +1,6 @@
 # PPM-ray-tracer
-Simple ray tracer that runs on the CPU and outputs to a .ppm and .bmp file.\
-The output can be seen in the bin/ folder next to the .exe.\
+#### A simple ray tracing program that runs on the CPU and outputs to a .ppm and .bmp file.\
+
 ![Screenshot](https://github.com/1mache/PPM-ray-tracer/blob/main/images/random1.bmp)
 
 ## Acknowledgements
