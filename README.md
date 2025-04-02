@@ -11,18 +11,18 @@ I put the premake exe file for windows in **premake/** for convenience. [Here](h
 
 ## Project Description
 
-The goal of the project was to get a feel of graphics and rendering in their simplest form, a static image.\ 
+The goal of the project was to get a feel of graphics and rendering in their simplest form, a static image.\
 Onto this image we render objects from the three dimesional world that we describe in the code by using a technique called ✨*Ray Tracing*✨.\
-The best explanation is in the book that I linked, but to put it really simply, it involves taking having a ray, sort of like a ray of light shot from a pixel on the screen\
+The best explanation is in the book that I linked, but to put it really simply, it involves taking having a ray, sort of like a ray of light shot from a pixel on the screen
 into the world we render and asking "what did you hit?", "did that thing reflect you? did you pass through it?", "what color was it?".\
 The project ended up taking way more than a weekend, since it involves quite a bit of math and physics formulas which I tried to understand instead of using them blindly.\
 I feel like it gave me an a perspective into the world of graphics programming, and fueled my passion for the subject.\
 I will definitely continue to explore it further and come back with even more exciting projects.
 
 ## The Boring Specifics
--There is no dependencies in the project, it writes raw pixel data into binary/text files.
--The only object in the world is a sphere since, of all 3D objects spheres have the simplest mathematical formula for checking intersection.\
--There are 3 Materials:
+- There is no dependencies in the project, it writes raw pixel data into binary/text files.
+- The only object in the world is a sphere since, of all 3D objects spheres have the simplest mathematical formula for checking intersection.\
+- There are 3 Materials:
 #### Matte objects (Lambertian)
 Matte 
 -Image format: in the [book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry) Peter Shirley suggests creating
