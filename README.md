@@ -20,7 +20,7 @@ The project ended up taking way more than a weekend, since it involves quite a b
 
 ## In more detail
 
-- There is no dependencies in the project, it writes raw pixel data into binary/text files.
+- There are no dependencies in the project, it writes raw pixel data into binary/text files.
 - The only object in the world is a sphere since, of all 3D objects spheres have the simplest mathematical formula for checking intersection.
 - There are 3 Materials:
 #### Matte objects (Lambertian)
