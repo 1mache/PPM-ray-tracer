@@ -21,7 +21,7 @@ The project ended up taking way more than a weekend, since it involves quite a b
 ## In more detail
 
 - There are no dependencies in the project, it writes raw pixel data into binary/text files.
-- The only object in the world is a sphere since, of all 3D objects spheres have the simplest mathematical formula for checking intersection.
+- The only object in the world is a sphere since, they have the simplest mathematical formula for checking intersection.
 - There are 3 Materials:
 #### Matte objects (Lambertian)
 Matte objects reflect the ray in a random direction (in a certain range) and add a can reflect some colors more than others,
