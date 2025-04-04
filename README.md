@@ -24,19 +24,19 @@ The project ended up taking way more than a weekend, since it involves quite a b
 - The only object in the world is a sphere since, they have the simplest mathematical formula for checking intersection.
 - There are 3 Materials:
 #### Matte objects (Lambertian)
-Matte objects reflect the ray in a random direction (in a certain range) and add a can reflect some colors more than others,
+Matte objects reflect the ray in a random direction (in a certain range) and can reflect some colors more than others,
 this is also true for the Metal material and it's called the *albedo*. If a sphere reflects the red component more than other ones,
 it will apear reddish, if it reflects red and blue the same amount it will appear purplish etc.
 ![Matte](https://github.com/1mache/PPM-ray-tracer/blob/main/images/matte.bmp)
 
 #### Metal objects
-Metal also has an albedo, there are metals in different colors so it makes sense. The difference between them and matte objects is that
+Metal also has an albedo. There are metals in different colors so it makes sense. The difference between them and matte objects is that
 they are better at reflecting. The Metal class has a fuzziness member which allows you to make metals that are well ... fuzzy,
 or perfect mirrors.\
 ![Metal](https://github.com/1mache/PPM-ray-tracer/blob/main/images/metal.bmp)
 
 #### Dielectrics
-Transparent materials that let light true but refract it in an angle defined by material specific ratio called the [refractive index](https://en.wikipedia.org/wiki/Refractive_index).
+Transparent materials that let light through but refract it in an angle defined by material specific ratio called the [refractive index](https://en.wikipedia.org/wiki/Refractive_index).
 The examples for them would be glass or water.\
 ![Dielectric](https://github.com/1mache/PPM-ray-tracer/blob/main/images/dielectric.bmp)
 
@@ -44,11 +44,11 @@ The examples for them would be glass or water.\
 - The processing is threaded. It is set to run on 8 threads by default. Each thread processes `image_height / 8` lines of pixels.
 They do it in an efficient fashion, first thread does line 0, 8, 16,... second thread does 1, 9, 17,... this allows for efficient
 processing even when there are clusters of objects at a certain level of the image. 
-- Image format: in the [book](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera/cameraviewinggeometry) Peter Shirley suggests creating
+- Image format: in the book Peter Shirley suggests creating
 an image in the [.ppm format](https://en.wikipedia.org/wiki/Netpbm#File_formats) and thats how I started as well.\
 In a nutshell a *ppm* is a text file where each line represents a pixel in the RGB format, you can look at it in the `images` folder.\
 Needless to say they weigh a lot since no compression at all is involved, but the bigger problem was that Windows` photo viewer doesn't recognize them as images
-which was quite annoying while debugging. So I ended up making the program output to a .bmp file which doesn't have that issue.
+which was quite annoying while debugging. So I ended up making the program output to a .bmp fileas well which doesn't have that issue.
 A bmp file is also uncompressed pixel data, but instead it is a binary file, so converting the output to it wasn't a big deal.
 
 ## Building
