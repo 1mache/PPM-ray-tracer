@@ -3,7 +3,16 @@
 
 class Vec3
 {
-	float m_x, m_y, m_z;	
+	// resolution for float comparison
+	constexpr static float FLOAT_EQ_RES = 1e-8;
+	float m_x, m_y, m_z;
+	
+	// utility, returns if 2 floats are equal based on resolution
+	static bool floatEq(float n1, float n2)
+	{
+		return std::abs(n1 - n2) <= FLOAT_EQ_RES;
+	}
+
 public:
 	constexpr Vec3(): m_x(0), m_y(0), m_z(0) {};
 	constexpr Vec3(float x, float y, float z) :
@@ -102,9 +111,9 @@ public:
 	}
 	bool operator==(const Vec3& other) const
 	{
-		return (m_x == other.m_x) &&
-			   (m_y == other.m_y) &&
-			   (m_z == other.m_z);
+		return floatEq(m_x, other.m_x) &&
+			   floatEq(m_y, other.m_y) &&
+			   floatEq(m_z, other.m_z);
 	}
 	bool operator!=(const Vec3& other) const { return !(*this == other); }
 
