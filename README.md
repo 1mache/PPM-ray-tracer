@@ -59,7 +59,7 @@ Build the project by running:
 ```
 (if you're using *VisualStudio2022*)\
 Or by executing `build.bat` (on Windows).\
-This will create VisualStudio2022 project files inside DonkeyKong/ folder.
+This will create VisualStudio2022 project files inside the repo folder.
 
 This was tested on Windows, but in theory you should be able to build the project files for your specified editor if premake supports it.
 
